@@ -1,0 +1,32 @@
+{
+  "name": "haxibiao/store",
+  "description": "哈希表Store",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "ivan",
+      "email": "ivan@haxibiao.com"
+    }
+  ],
+  "require": {},
+  "repositories": {},
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-0": {
+      "haxibiao\\store\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "classmap": [
+      "tests/"
+    ]
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "haxibiao\\store\\StoreServiceProvider"
+      ]
+    }
+  }
+}
