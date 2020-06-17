@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use haxibiao\store\Store as BaseStore;
+
+class Store extends BaseStore
+{
+    //
+}

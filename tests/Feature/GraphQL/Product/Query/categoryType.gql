@@ -1,0 +1,10 @@
+query categoryType($type: String!) {
+  categoryType(type: $type) {
+    data {
+      id
+      name
+      nova_logo
+      created_at
+    }
+  }
+}

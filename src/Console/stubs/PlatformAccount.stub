@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use haxibiao\store\PlatformAccount as BasePlatformAccount;
+
+class PlatformAccount extends BasePlatformAccount
+{
+    //
+}

@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use haxibiao\store\Order as BaseOrder;
+
+class Order extends BaseOrder
+{
+    //
+}

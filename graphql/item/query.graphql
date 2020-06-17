@@ -1,0 +1,17 @@
+type Item {
+  id: Int
+  name: String
+  value: String
+  price: Float
+  count: Int
+  status: Int
+  description: String
+  updated_at: DateTime
+  created_at: DateTime
+}
+
+extend type Query {
+  item(id: Int! @eq): Item @find
+  items(status: Int): [Item] @all
+  myItems: [Item] @field(resolver: "App\\Item@resolveMyItems")
+}

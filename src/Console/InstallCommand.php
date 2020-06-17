@@ -29,9 +29,20 @@ class InstallCommand extends Command
      */
     public function handle()
     {
+        $this->info('发布 store');
+        $this->call('vendor:publish', ['--provider' => 'haxibiao\store\StoreServiceProvider', '--force']);
 
         $this->comment('复制 stubs ...');
-
+        copy($this->resolveStubPath('/stubs/Store.stub'), app_path('Store.php'));
+        copy($this->resolveStubPath('/stubs/Item.stub'), app_path('Item.php'));
+        copy($this->resolveStubPath('/stubs/Order.stub'), app_path('Order.php'));
+        copy($this->resolveStubPath('/stubs/PlatformAccount.stub'), app_path('PlatformAccount.php'));
+        copy($this->resolveStubPath('/stubs/Product.stub'), app_path('Product.php'));
+        copy($this->resolveStubPath('/stubs/ExchangeConfig.stub'), app_path('ExchangeConfig.php'));
     }
 
+    protected function resolveStubPath($stub)
+    {
+        return __DIR__ . $stub;
+    }
 }

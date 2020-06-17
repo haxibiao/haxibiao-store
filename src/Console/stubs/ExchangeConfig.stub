@@ -1,0 +1,9 @@
+<?php
+
+namespace App;
+use haxibiao\store\ExchangeConfig as BaseExchangeConfig;
+
+class ExchangeConfig extends BaseExchangeConfig
+{
+    protected $guarded = [];
+}

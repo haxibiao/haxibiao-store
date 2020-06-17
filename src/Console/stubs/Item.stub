@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use haxibiao\store\Item as BaseItem;
+
+class Item extends BaseItem
+{
+    //
+}

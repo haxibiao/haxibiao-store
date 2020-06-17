@@ -1,0 +1,6 @@
+query platformAccountPrice($product_id: Int!, $dimension: String!, $dimension2: Int!) {
+  platformAccountPrice(product_id: $product_id, dimension: $dimension, dimension2: $dimension2) {
+    price
+    count
+  }
+}

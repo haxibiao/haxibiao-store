@@ -1,0 +1,15 @@
+query products($category_id: Int!) {
+  products(category_id: $category_id) {
+    data {
+      id
+      name
+      description
+      cover {
+        url
+      }
+      video {
+        url
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+query store($user_id: Int!) {
+  store(user_id: $user_id) {
+    id
+    name
+    description
+    product {
+      id
+      name
+      description
+      cover {
+        url
+      }
+    }
+  }
+}

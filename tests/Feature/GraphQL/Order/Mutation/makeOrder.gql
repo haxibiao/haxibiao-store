@@ -1,0 +1,16 @@
+# Write your query or mutation here
+mutation makeOrder($product_id: Int!, $dimension: String!, $dimension2: Int!) {
+  makeOrder(product_id: $product_id, dimension: $dimension, dimension2: $dimension2) {
+    id
+    number
+    products {
+      id
+      name
+    }
+    platformAccount {
+      account
+      password
+    }
+    created_at
+  }
+}

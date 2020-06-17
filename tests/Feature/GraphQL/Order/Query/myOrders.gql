@@ -1,0 +1,20 @@
+query myOrders {
+  myOrders {
+    data {
+      id
+      number
+      account
+      password
+      products {
+        id
+        name
+      }
+      user {
+        id
+        name
+      }
+      status
+      created_at
+    }
+  }
+}

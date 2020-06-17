@@ -1,0 +1,3 @@
+query dimension($product_id: Int!, $type: DimensionType) {
+  dimension(product_id: $product_id, type: $type)
+}

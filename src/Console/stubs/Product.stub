@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use haxibiao\store\Product as BaseProduct;
+
+class Product extends BaseProduct
+{
+    //
+}

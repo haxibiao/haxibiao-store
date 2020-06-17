@@ -1,0 +1,15 @@
+query product($id: Int!) {
+  product(id: $id) {
+    id
+    name
+    description
+    dimension
+    dimension2
+    cover {
+      url
+    }
+    image {
+      url
+    }
+  }
+}
