@@ -9,9 +9,9 @@ use App\Exceptions\GQLException;
 trait ItemRepo
 {
     //领取道具
-    public static function receiveItem($item_id)
+    public static function receiveItem($user, $item_id)
     {
-        if ($user = checkUser()) {
+        if ($user) {
 
             $item = Item::find($item_id);
             if ($item) {

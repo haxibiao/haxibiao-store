@@ -12,7 +12,7 @@ trait ItemResolvers
      */
     public function resolveReceiveItem($root, array $args, $context, $info)
     {
-        return Item::receiveItem($args['id']);
+        return Item::receiveItem(getUser(), $args['id']);
     }
 
     /**
