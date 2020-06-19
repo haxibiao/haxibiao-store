@@ -63,9 +63,10 @@ trait OrderRepo
             $product->update(["available_amount", $product->available_amount - 1]);
 
             // 租号
-            return $this->freeBorrow($product, $platform_account, $dimension2, $item_value);
-
+            $order = $this->freeBorrow($product, $platform_account, $dimension2, $item_value);
             DB::commit();
+
+            return $order;
         } catch (\Exception $e) {
             DB::rollback();
             Log::error($e);
