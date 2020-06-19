@@ -40,28 +40,37 @@ trait OrderRepo
             throw new GQLException("该规格的账号没有啦！请选择其他规格吧！");
         }
 
-        //使用金币抵用券
-        $item_value = 0;
-        if ($item_id) {
-            $item = $user->items()->find($item_id);
-            if ($item) {
-                $item_value = $item->value;
-                $user->items()->detach($item_id);
-            }
-        }
-        if ($user->gold + $item_value < $platform_account->price) {
-            throw new GQLException('您的金币不足!');
-        }
-
         if (empty($user) || is_null($user->phone)) {
             throw new GQLException("请先去绑定手机号再来租号吧！");
         }
 
-        //每买一次数量-1
-        $product->update(["available_amount", $product->available_amount - 1]);
+        DB::beginTransaction();
+        try {
+            //使用金币抵用券
+            $item_value = 0;
+            if ($item_id) {
+                $item = $user->items()->find($item_id);
+                if ($item) {
+                    $item_value = $item->value;
+                    $user->items()->detach($item_id);
+                }
+            }
+            if ($user->gold + $item_value < $platform_account->price) {
+                throw new GQLException('您的金币不足!');
+            }
 
-        // 租号
-        return $this->freeBorrow($product, $platform_account, $dimension2, $item_value);
+            //每买一次数量-1
+            $product->update(["available_amount", $product->available_amount - 1]);
+
+            // 租号
+            return $this->freeBorrow($product, $platform_account, $dimension2, $item_value);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error($e);
+            throw new GQLException("未知异常，订单取消");
+        }
     }
 
     //免费租号
@@ -74,53 +83,44 @@ trait OrderRepo
         // if (!empty($order) && $platform_account->price == 0) {
         //     throw new GQLException("新人只能参与一次免费租号活动");
         // }
-        DB::beginTransaction();
-        try {
-            //1.取出'未使用'的账号返回给用户
-            //上面已经拿到了platform_account
+        //1.取出'未使用'的账号返回给用户
+        //上面已经拿到了platform_account
 
-            //2.创建订单
-            $order = Order::create([
-                "user_id"            => $user->id,
-                "number"             => time(),
-                //nova查询某个订单租借了哪个账号需要
-                "platformAccount_id" => $platform_account->id,
-                "status"             => Order::PAID,
-            ]);
+        //2.创建订单
+        $order = Order::create([
+            "user_id"            => $user->id,
+            "number"             => time(),
+            //nova查询某个订单租借了哪个账号需要
+            "platformAccount_id" => $platform_account->id,
+            "status"             => Order::PAID,
+        ]);
 
-            //3.更新order和product的关联
-            $order->products()->syncWithoutDetaching([
-                $product->id => [
-                    'amount' => 1,
-                    'price'  => $platform_account->price,
-                ],
-            ]);
+        //3.更新order和product的关联
+        $order->products()->syncWithoutDetaching([
+            $product->id => [
+                'amount' => 1,
+                'price'  => $platform_account->price,
+            ],
+        ]);
 
-            //4.更新账号为使用中
-            $platform_account->update([
-                "order_status" => PlatformAccount::INUSE,
-                "order_id"     => $order->id,
-                "user_id"      => $user->id,
-            ]);
+        //4.更新账号为使用中
+        $platform_account->update([
+            "order_status" => PlatformAccount::INUSE,
+            "order_id"     => $order->id,
+            "user_id"      => $user->id,
+        ]);
 
-            //5.扣除智慧点 item_value抵用券
+        //5.扣除智慧点 item_value抵用券
 
-            Gold::makeOutcome($user, $platform_account->price - $item_value, '租借账号扣除');
+        Gold::makeOutcome($user, $platform_account->price - $item_value, '租借账号扣除');
 
-            //6.通知用户(订单剩余十分钟)
-            $user->notify((new PlatformAccountExpire($platform_account))->delay(now()
-                ->addHour($dimension2)->subMinutes(10)));
-            //更新订单和账号状态为已过期
-            \dispatch(new OrderAutoExpire($platform_account, $order))
-                ->delay(now()->addHour($dimension2));
-
-            DB::commit();
-            return $order;
-        } catch (\Exception $e) {
-            DB::rollback();
-            Log::error($e);
-            throw new GQLException("未知异常，订单取消");
-        }
+        //6.通知用户(订单剩余十分钟)
+        $user->notify((new PlatformAccountExpire($platform_account))->delay(now()
+            ->addHour($dimension2)->subMinutes(10)));
+        //更新订单和账号状态为已过期
+        \dispatch(new OrderAutoExpire($platform_account, $order))
+            ->delay(now()->addHour($dimension2));
+        return $order;
     }
 
     public static function backOrder($order_id)
