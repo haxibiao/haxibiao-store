@@ -45,18 +45,24 @@ trait OrderRepo
         }
 
         DB::beginTransaction();
+        //使用金币抵用券
+        $item_value = 0;
+        if ($item_id) {
+            $item = $user->items()->find($item_id);
+            if ($item) {
+                $item_value = $item->value;
+            }
+        }
+        if ($user->gold + $item_value < $platform_account->price) {
+            throw new GQLException('您的金币不足!');
+        }
         try {
-            //使用金币抵用券
-            $item_value = 0;
+            //FIXME::紧急修复租号时报错问题，这段代码不优雅~,有空改
             if ($item_id) {
                 $item = $user->items()->find($item_id);
                 if ($item) {
-                    $item_value = $item->value;
                     $user->items()->detach($item_id);
                 }
-            }
-            if ($user->gold + $item_value < $platform_account->price) {
-                throw new GQLException('您的金币不足!');
             }
 
             //每买一次数量-1
