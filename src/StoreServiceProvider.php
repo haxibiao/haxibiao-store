@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\store;
+namespace Haxibiao\Store;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -88,7 +88,7 @@ class StoreServiceProvider extends ServiceProvider
             'path.haxibiao-store.database'   => $database = $root . '/database',
             'path.haxibiao-store.migrations' => $database . '/migrations',
             'path.haxibiao-store.seeds'      => $database . '/seeds',
-            'path.haxibiao-store.factories'      => $database . '/factories',
+            'path.haxibiao-store.factories'  => $database . '/factories',
         ] as $abstract => $instance) {
             $this->app->instance($abstract, $instance);
         }

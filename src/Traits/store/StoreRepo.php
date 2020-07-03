@@ -1,8 +1,6 @@
 <?php
 
-namespace haxibiao\store\Traits;
-
-use Illuminate\Support\Facades\Auth;
+namespace Haxibiao\Store\Traits;
 
 trait StoreRepo
 {

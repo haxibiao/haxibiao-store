@@ -1,14 +1,14 @@
 <?php
 
-namespace haxibiao\store;
+namespace Haxibiao\Store;
 
-use App\User;
-use App\Product;
 use App\PlatformAccount;
-use haxibiao\store\Traits\OrderRepo;
-use haxibiao\store\Traits\OrderAttrs;
+use App\Product;
+use App\User;
+use Haxibiao\Store\Traits\OrderAttrs;
+use Haxibiao\Store\Traits\OrderRepo;
+use Haxibiao\Store\Traits\OrderResolvers;
 use Illuminate\Database\Eloquent\Model;
-use haxibiao\store\Traits\OrderResolvers;
 
 class Order extends Model
 {

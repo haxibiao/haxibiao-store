@@ -1,11 +1,11 @@
 <?php
 
-namespace haxibiao\store;
+namespace Haxibiao\Store;
 
 use App\User;
-use haxibiao\store\Traits\ItemRepo;
+use Haxibiao\Store\Traits\ItemRepo;
+use Haxibiao\Store\Traits\ItemResolvers;
 use Illuminate\Database\Eloquent\Model;
-use haxibiao\store\Traits\ItemResolvers;
 
 class Item extends Model
 {

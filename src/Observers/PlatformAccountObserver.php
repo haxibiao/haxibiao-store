@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\store\Observers;
+namespace Haxibiao\Store\Observers;
 
 use App\PlatformAccount;
 use App\Product;

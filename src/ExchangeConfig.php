@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\store;
+namespace Haxibiao\Store;
 
 use Illuminate\Database\Eloquent\Model;
 

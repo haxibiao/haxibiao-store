@@ -14,7 +14,7 @@
   "minimum-stability": "dev",
   "autoload": {
     "psr-0": {
-      "haxibiao\\store\\": "src/"
+      "Haxibiao\\Store\\": "src/"
     }
   },
   "autoload-dev": {
@@ -25,7 +25,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "haxibiao\\store\\StoreServiceProvider"
+        "Haxibiao\\Store\\StoreServiceProvider"
       ]
     }
   }

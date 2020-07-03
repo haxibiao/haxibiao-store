@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\store\Notifications;
+namespace Haxibiao\Store\Notifications;
 
 use App\PlatformAccount;
 use Illuminate\Bus\Queueable;
@@ -61,13 +61,13 @@ class PlatformAccountExpire extends Notification implements ShouldQueue
 
         // $seconds = now()->diffInSeconds(Carbon::parse($order->created_at)) < $lengthOfTime;
         return [
-            'user_id' => $platformAccount->user_id,
-            'product_id' => $platformAccount->product_id,
-            'order_id' => $platformAccount->order_id,
+            'user_id'      => $platformAccount->user_id,
+            'product_id'   => $platformAccount->product_id,
+            'order_id'     => $platformAccount->order_id,
             'order_status' => $platformAccount->order_status,
-            'platform' => $platformAccount->platform,
-            'account' => $platformAccount->account,
-            'password' => $platformAccount->password,
+            'platform'     => $platformAccount->platform,
+            'account'      => $platformAccount->account,
+            'password'     => $platformAccount->password,
         ];
     }
 }

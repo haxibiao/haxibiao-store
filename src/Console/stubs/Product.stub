@@ -2,7 +2,7 @@
 
 namespace App;
 
-use haxibiao\store\Product as BaseProduct;
+use Haxibiao\Store\Product as BaseProduct;
 
 class Product extends BaseProduct
 {

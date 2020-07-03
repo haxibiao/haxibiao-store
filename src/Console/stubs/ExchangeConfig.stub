@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-use haxibiao\store\ExchangeConfig as BaseExchangeConfig;
+use Haxibiao\Store\ExchangeConfig as BaseExchangeConfig;
 
 class ExchangeConfig extends BaseExchangeConfig
 {

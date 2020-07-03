@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\store\Traits;
+namespace Haxibiao\Store\Traits;
 
 use App\Exceptions\GQLException;
 use App\Store;

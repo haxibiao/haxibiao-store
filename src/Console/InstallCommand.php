@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\store;
+namespace Haxibiao\Store;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
@@ -30,7 +30,7 @@ class InstallCommand extends Command
     public function handle()
     {
         $this->info('发布 store');
-        $this->call('vendor:publish', ['--provider' => 'haxibiao\store\StoreServiceProvider', '--force']);
+        $this->call('vendor:publish', ['--provider' => 'Haxibiao\Store\StoreServiceProvider', '--force']);
 
         $this->comment('复制 stubs ...');
         copy($this->resolveStubPath('/stubs/Store.stub'), app_path('Store.php'));

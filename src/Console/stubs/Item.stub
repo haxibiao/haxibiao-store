@@ -2,7 +2,7 @@
 
 namespace App;
 
-use haxibiao\store\Item as BaseItem;
+use Haxibiao\Store\Item as BaseItem;
 
 class Item extends BaseItem
 {

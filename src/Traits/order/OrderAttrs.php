@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\store\Traits;
+namespace Haxibiao\Store\Traits;
 
 use App\Order;
 use Carbon\Carbon;
@@ -20,8 +20,8 @@ trait OrderAttrs
     {
         if ($this->status == Order::PAID) {
             $dimension2 = $this->platformAccount[0]->dimension2;
-            $end_time = Carbon::parse($this->created_at)->addHours($dimension2);
-            $seconds = $end_time->diffInSeconds(now());
+            $end_time   = Carbon::parse($this->created_at)->addHours($dimension2);
+            $seconds    = $end_time->diffInSeconds(now());
 
             return gmstrftime('%H:%M:%S', $seconds);
         }

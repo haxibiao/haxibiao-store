@@ -2,7 +2,7 @@
 
 namespace App;
 
-use haxibiao\store\PlatformAccount as BasePlatformAccount;
+use Haxibiao\Store\PlatformAccount as BasePlatformAccount;
 
 class PlatformAccount extends BasePlatformAccount
 {

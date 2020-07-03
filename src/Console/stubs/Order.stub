@@ -2,7 +2,7 @@
 
 namespace App;
 
-use haxibiao\store\Order as BaseOrder;
+use Haxibiao\Store\Order as BaseOrder;
 
 class Order extends BaseOrder
 {

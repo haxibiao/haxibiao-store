@@ -2,7 +2,7 @@
 
 namespace App;
 
-use haxibiao\store\Store as BaseStore;
+use Haxibiao\Store\Store as BaseStore;
 
 class Store extends BaseStore
 {

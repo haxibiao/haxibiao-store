@@ -1,10 +1,10 @@
 <?php
 
-namespace haxibiao\store\Traits;
+namespace Haxibiao\Store\Traits;
 
+use App\Exceptions\GQLException;
 use App\Gold;
 use App\Item;
-use App\Exceptions\GQLException;
 
 trait ItemRepo
 {

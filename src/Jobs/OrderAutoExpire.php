@@ -1,15 +1,15 @@
 <?php
 
-namespace haxibiao\store\Jobs;
+namespace Haxibiao\Store\Jobs;
 
 use App\Order;
 use App\PlatformAccount;
+use Haxibiao\Store\Notifications\PlatformAccountExpire;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use haxibiao\store\Notifications\PlatformAccountExpire;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 //订单自动过期
 class OrderAutoExpire implements ShouldQueue
@@ -29,7 +29,7 @@ class OrderAutoExpire implements ShouldQueue
     public function __construct(PlatformAccount $account, Order $order)
     {
         $this->account = $account;
-        $this->order = $order;
+        $this->order   = $order;
     }
 
     /**
@@ -40,7 +40,7 @@ class OrderAutoExpire implements ShouldQueue
     public function handle()
     {
         $account = $this->account;
-        $order = $this->order;
+        $order   = $this->order;
         if ($account) {
             //更新账号状态：已到期
             // dd($account);

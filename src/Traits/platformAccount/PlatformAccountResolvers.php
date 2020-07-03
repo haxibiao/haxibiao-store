@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\store\Traits;
+namespace Haxibiao\Store\Traits;
 
 use App\PlatformAccount;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -12,7 +12,7 @@ trait PlatformAccountResolvers
     public function getDimension($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
 
-        $type = $args['type'];
+        $type       = $args['type'];
         $product_id = $args['product_id'];
 
         return PlatformAccount::getDimensionByType($type, $product_id);
@@ -22,7 +22,7 @@ trait PlatformAccountResolvers
     public function getPrice($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
 
-        $dimension = $args['dimension'];
+        $dimension  = $args['dimension'];
         $dimension2 = $args['dimension2'];
         $product_id = $args['product_id'];
 

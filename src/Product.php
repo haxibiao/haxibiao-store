@@ -1,16 +1,15 @@
 <?php
 
-namespace haxibiao\store;
+namespace Haxibiao\Store;
 
-use App\User;
-use App\Store;
-
-use App\Video;
 use App\Category;
-use haxibiao\store\Traits\ProductRepo;
-use haxibiao\store\Traits\ProductAttrs;
+use App\Store;
+use App\User;
+use App\Video;
+use Haxibiao\Store\Traits\ProductAttrs;
+use Haxibiao\Store\Traits\ProductRepo;
+use Haxibiao\Store\Traits\ProductResolvers;
 use Illuminate\Database\Eloquent\Model;
-use haxibiao\store\Traits\ProductResolvers;
 
 class Product extends Model
 {

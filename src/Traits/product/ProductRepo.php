@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\store\Traits;
+namespace Haxibiao\Store\Traits;
 
 use Illuminate\Http\UploadedFile;
 
@@ -9,7 +9,7 @@ trait ProductRepo
     //nova 视频上传
     public function saveVideoFile(UploadedFile $file)
     {
-        $hash = md5_file($file->getRealPath());
+        $hash  = md5_file($file->getRealPath());
         $video = \App\Video::firstOrNew([
             'hash' => $hash,
         ]);
@@ -27,7 +27,7 @@ trait ProductRepo
     {
         if ($file) {
             $task_logo = 'product/product' . $this->id . '_' . time() . '.png';
-            $cosDisk = \Storage::cloud();
+            $cosDisk   = \Storage::cloud();
             $cosDisk->put($task_logo, \file_get_contents($file->path()));
 
             return $task_logo;

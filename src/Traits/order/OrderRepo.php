@@ -1,17 +1,17 @@
 <?php
 
-namespace haxibiao\store\Traits;
+namespace Haxibiao\Store\Traits;
 
+use App\Exceptions\GQLException;
 use App\Gold;
 use App\Order;
-use Exception;
-use App\Product;
 use App\PlatformAccount;
-use App\Exceptions\GQLException;
+use App\Product;
+use Exception;
+use Haxibiao\Store\Jobs\OrderAutoExpire;
+use Haxibiao\Store\Notifications\PlatformAccountExpire;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use haxibiao\store\Jobs\OrderAutoExpire;
-use haxibiao\store\Notifications\PlatformAccountExpire;
 
 trait OrderRepo
 {
@@ -123,7 +123,7 @@ trait OrderRepo
 
         //6.通知用户(订单剩余十分钟)
         $user->notify((new PlatformAccountExpire($platform_account))->delay(now()
-            ->addHour($dimension2)->subMinutes(10)));
+                ->addHour($dimension2)->subMinutes(10)));
         //更新订单和账号状态为已过期
         \dispatch(new OrderAutoExpire($platform_account, $order))
             ->delay(now()->addHour($dimension2));

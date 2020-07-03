@@ -1,14 +1,13 @@
 <?php
 
-namespace haxibiao\store;
-
-use App\User;
+namespace Haxibiao\Store;
 
 use App\Image;
 use App\Product;
-use haxibiao\store\Traits\StoreRepo;
+use App\User;
+use Haxibiao\Store\Traits\StoreRepo;
+use Haxibiao\Store\Traits\StoreResolvers;
 use Illuminate\Database\Eloquent\Model;
-use haxibiao\store\Traits\StoreResolvers;
 
 class Store extends Model
 {

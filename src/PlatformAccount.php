@@ -1,15 +1,14 @@
 <?php
 
-namespace haxibiao\store;
+namespace Haxibiao\Store;
 
-use App\User;
 use App\Order;
-
 use App\Product;
+use App\User;
+use Haxibiao\Store\Traits\PlatformAccountAttrs;
+use Haxibiao\Store\Traits\PlatformAccountRepo;
+use Haxibiao\Store\Traits\PlatformAccountResolvers;
 use Illuminate\Database\Eloquent\Model;
-use haxibiao\store\Traits\PlatformAccountRepo;
-use haxibiao\store\Traits\PlatformAccountAttrs;
-use haxibiao\store\Traits\PlatformAccountResolvers;
 
 class PlatformAccount extends Model
 {
@@ -32,9 +31,9 @@ class PlatformAccount extends Model
         'password',
     ];
 
-    const UNUSE = 0; //未使用
-    const INUSE = 1; //使用中
-    const EXPIRE = 2; //已到期
+    const UNUSE    = 0; //未使用
+    const INUSE    = 1; //使用中
+    const EXPIRE   = 2; //已到期
     const UNUSABLE = -1; //不可用
 
     public function user()
