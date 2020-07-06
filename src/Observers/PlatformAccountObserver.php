@@ -2,8 +2,9 @@
 
 namespace Haxibiao\Store\Observers;
 
-use App\PlatformAccount;
 use App\Product;
+use App\PlatformAccount;
+use Illuminate\Support\Facades\DB;
 
 class PlatformAccountObServer
 {
@@ -41,6 +42,15 @@ class PlatformAccountObServer
             ) {
                 //状态改成使用中，改动之前状态必须是待使用
                 $product->available_amount = $product->available_amount - 1;
+
+                $user = $platformAccount->user;
+                //租号任务奖励
+                $tasks = $user->getOrderTasks();
+                foreach ($tasks as $task) {
+                    $task->checkTaskStatus($user);
+                    $assignment               = $user->tasks()->where('task_id', $task->id)->first()->pivot;
+                    $assignment->update(["current_count" => DB::raw("current_count+1")]); //次数加1
+                }
             } else if (
                 $platformAccount->order_status == PlatformAccount::EXPIRE
                 && $p->order_status == PlatformAccount::UNUSE
