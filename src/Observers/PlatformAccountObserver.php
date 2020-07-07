@@ -44,13 +44,9 @@ class PlatformAccountObServer
                 $product->available_amount = $product->available_amount - 1;
 
                 $user = $platformAccount->user;
-                //租号任务奖励
-                $tasks = $user->getOrderTasks();
-                foreach ($tasks as $task) {
-                    $task->checkTaskStatus($user);
-                    $assignment               = $user->tasks()->where('task_id', $task->id)->first()->pivot;
-                    $assignment->update(["current_count" => DB::raw("current_count+1")]); //次数加1
-                }
+
+                //刷新“我要租号”任务进度
+                \App\Task::refreshTask($user, "我要租号");
             } else if (
                 $platformAccount->order_status == PlatformAccount::EXPIRE
                 && $p->order_status == PlatformAccount::UNUSE
