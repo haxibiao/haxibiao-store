@@ -19,11 +19,14 @@ trait OrderAttrs
     public function getEndTimeAttribute()
     {
         if ($this->status == Order::PAID) {
-            $dimension2 = $this->platformAccount[0]->dimension2;
-            $end_time   = Carbon::parse($this->created_at)->addHours($dimension2);
-            $seconds    = $end_time->diffInSeconds(now());
+            if ($this->platformAccount[0]) {
 
-            return gmstrftime('%H:%M:%S', $seconds);
+                $dimension2 = $this->platformAccount[0]->dimension2;
+                $end_time   = Carbon::parse($this->created_at)->addHours($dimension2);
+                $seconds    = $end_time->diffInSeconds(now());
+
+                return gmstrftime('%H:%M:%S', $seconds);
+            }
         }
         return;
     }
