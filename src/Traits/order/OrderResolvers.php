@@ -42,7 +42,7 @@ trait OrderResolvers
     public function resovleBackOrder($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         if ($user = checkUser()) {
-            return Order::backOrder($args['order_id']);
+            return Order::backOrder($args['order_id'], $args['content'] ?? "无理由", $args['images'] ?? null, $args['image_urls'] ?? null);
         } else {
             throw new GQLException("客户端没有登录。。。");
         }

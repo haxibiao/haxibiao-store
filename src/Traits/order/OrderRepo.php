@@ -2,16 +2,19 @@
 
 namespace Haxibiao\Store\Traits;
 
-use App\Exceptions\GQLException;
 use App\Gold;
+use App\Image;
 use App\Order;
-use App\PlatformAccount;
-use App\Product;
 use Exception;
-use Haxibiao\Store\Jobs\OrderAutoExpire;
-use Haxibiao\Store\Notifications\PlatformAccountExpire;
+use App\Refund;
+use App\Product;
+use App\PlatformAccount;
+use App\Exceptions\GQLException;
+use Haxibiao\Helpers\BadWordUtils;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Haxibiao\Store\Jobs\OrderAutoExpire;
+use Haxibiao\Store\Notifications\PlatformAccountExpire;
 
 trait OrderRepo
 {
@@ -123,19 +126,23 @@ trait OrderRepo
 
         //6.通知用户(订单剩余十分钟)
         $user->notify((new PlatformAccountExpire($platform_account))->delay(now()
-                ->addHour($dimension2)->subMinutes(10)));
+            ->addHour($dimension2)->subMinutes(10)));
         //更新订单和账号状态为已过期
         \dispatch(new OrderAutoExpire($platform_account, $order))
             ->delay(now()->addHour($dimension2));
         return $order;
     }
 
-    public static function backOrder($order_id)
+    public static function backOrder($order_id, $content, $images, $image_urls)
     {
+        app_track_event('用户页', '订单退款');
+
+        $user    = getUser();
         $order = Order::find($order_id);
         if (empty($order)) {
             throw new GQLException("不存在该订单！");
         }
+
         if ($order->status != Order::PAID) {
             throw new GQLException("该订单已过期");
         }
@@ -143,25 +150,31 @@ trait OrderRepo
         if ($order->created_at->diffInSeconds(now(), false) > Order::REFUND_TIME) {
             throw new GQLException("下单已超过十分钟，退单失败！");
         }
-        DB::BeginTransaction();
-        try {
-            $order->status = Order::EXPIRE;
-            $order->save();
-            //更改关联账号状态为2（过期）
-            $platformAccounts = $order->platformAccount;
-            $gold             = 0;
-            foreach ($platformAccounts as $platformAccount) {
-                $gold += $platformAccount->price;
-                $platformAccount->order_status = PlatformAccount::EXPIRE;
-                $platformAccount->save();
-            }
-            //退款给用户
-            Gold::makeIncome($order->user, $gold, "退款返回");
-            DB::commit();
-        } catch (Exception $e) {
-            throw new GQLException("发生未知错误，退款失败！");
-            DB::rollback();
+
+        if (BadWordUtils::check($content)) {
+            throw new GQLException('退款理由中含有包含非法内容,请删除后再试!');
         }
+        $refund = Refund::firstOrCreate([
+            'user_id' => $user->id,
+            'order_id' => $order_id,
+            'content' => $content,
+        ]);
+
+        if (!empty($images)) {
+            foreach ($images as $image) {
+                $image = Image::saveImage($image);
+                $refund->images()->attach($image->id);
+            }
+        }
+
+        if (!empty($image_urls) && is_array($image_urls)) {
+            $image_ids = array_map(function ($url) {
+                return intval(pathinfo($url)['filename']);
+            }, $image_urls);
+            $refund->images()->sync($image_ids);
+        }
+        $refund->save();
+
         return true;
     }
 }
