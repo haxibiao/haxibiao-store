@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use Haxibiao\Store\Refund as BaseRefund;
+
+class Refund extends BaseRefund
+{
+    //
+}

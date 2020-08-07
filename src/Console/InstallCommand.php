@@ -34,6 +34,7 @@ class InstallCommand extends Command
 
         $this->comment('复制 stubs ...');
         copy($this->resolveStubPath('/stubs/Store.stub'), app_path('Store.php'));
+        copy($this->resolveStubPath('/stubs/Refund.stub'), app_path('Refund.php'));
         copy($this->resolveStubPath('/stubs/Item.stub'), app_path('Item.php'));
         copy($this->resolveStubPath('/stubs/Order.stub'), app_path('Order.php'));
         copy($this->resolveStubPath('/stubs/PlatformAccount.stub'), app_path('PlatformAccount.php'));

@@ -30,6 +30,7 @@ class StoreServiceProvider extends ServiceProvider
     {
         //注册 events - 运行时需要
         PlatformAccount::observe(Observers\PlatformAccountObServer::class);
+        Refund::observe(Observers\RefundObServer::class);
 
         //安装时需要
         if ($this->app->runningInConsole()) {
