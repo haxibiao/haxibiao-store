@@ -136,7 +136,7 @@ class Refund extends Resource
     public function actions(Request $request)
     {
         return [
-            new \App\Nova\Actions\Feedback\RefundStatus,
+            // new \App\Nova\Actions\Feedback\RefundStatus,
         ];
     }
 }
