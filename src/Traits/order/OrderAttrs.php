@@ -19,7 +19,7 @@ trait OrderAttrs
     public function getEndTimeAttribute()
     {
         if ($this->status == Order::PAID) {
-            if ($this->platformAccount[0]) {
+            if ($this->platformAccount) {
 
                 $dimension2 = $this->platformAccount[0]->dimension2;
                 $end_time   = Carbon::parse($this->created_at)->addHours($dimension2);
