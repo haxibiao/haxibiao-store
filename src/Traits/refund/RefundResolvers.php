@@ -3,9 +3,7 @@
 namespace Haxibiao\Store\Traits;
 
 use App\Image;
-use App\Refund;
-use App\Refunds;
-use App\Feedback;
+use Haxibiao\Store\Refund;
 use App\Exceptions\GQLException;
 use Haxibiao\Helpers\BadWordUtils;
 use GraphQL\Type\Definition\ResolveInfo;

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Observers;
+namespace Haxibiao\Store\Observers;
 
 use App\Gold;
 use App\Order;
 use Exception;
 use App\Refund;
 use App\PlatformAccount;
-use App\Events\NewRefund;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
