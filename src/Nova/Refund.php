@@ -5,6 +5,7 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\MorphMany;
@@ -58,8 +59,8 @@ class Refund extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make('用户', 'user', User::class),
-            BelongsTo::make('订单', 'order', Order::class),
+            HasOne::make('用户', 'user', User::class),
+            HasOne::make('订单', 'order', Order::class),
             Text::make('内容', 'content'),
             Image::make('图片1', 'images')
                 ->thumbnail(function () {
@@ -135,7 +136,7 @@ class Refund extends Resource
     public function actions(Request $request)
     {
         return [
-            // new \App\Nova\Actions\RefundStatus,
+            new \App\Nova\Actions\Feedback\RefundStatus,
         ];
     }
 }

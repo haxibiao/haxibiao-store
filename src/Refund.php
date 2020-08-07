@@ -27,16 +27,25 @@ class Refund extends Model
     const STATUS_PROCESSED = 2;
     public function order()
     {
-        $this->hasOne(\App\Order::class);
+
+        return  $this->hasOne(\App\Order::class, "id", "order_id");
     }
 
     public function user()
     {
-        $this->hasOne(\App\User::class);
+        return $this->hasOne(\App\User::class, "id", "user_id");
     }
 
     public function images()
     {
         return $this->belongsToMany(\App\Image::class, "refund_image")->withTimestamps();
+    }
+
+    public function getImageItemUrl($number = 0)
+    {
+        if ($this->images->isNotEmpty()) {
+            return empty($this->images->get($number)) ? "" : $this->images->get($number)->url;
+        }
+        return "";
     }
 }
