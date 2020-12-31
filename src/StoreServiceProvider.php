@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Store;
 
+use Haxibiao\Store\Console\InstallCommand;
 use Illuminate\Support\ServiceProvider;
 
 class StoreServiceProvider extends ServiceProvider
