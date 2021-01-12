@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Nova\Filters\PlatformAccountStatus;
+use App\Nova\Filters\PlatformAccount\PlatformAccountStatus;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
@@ -47,9 +47,9 @@ class PlatformAccount extends Resource
             Text::make('规格2(数字时长)', 'dimension2'),
             Text::make('密码', 'password')->onlyOnForms(),
             Select::make('状态', 'order_status')->options([
-                0 => '未使用',
-                1 => '使用中',
-                2 => '已到期',
+                0  => '未使用',
+                1  => '使用中',
+                2  => '已到期',
                 -1 => '不可用',
             ])->displayUsingLabels(),
         ];
