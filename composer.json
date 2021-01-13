@@ -1,32 +1,32 @@
 {
-  "name": "haxibiao/store",
-  "description": "哈希表Store",
-  "type": "project",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "ivan",
-      "email": "ivan@haxibiao.com"
+    "name": "haxibiao/store",
+    "description": "哈希表Store",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ivan",
+            "email": "ivan@haxibiao.com"
+        }
+    ],
+    "require": {},
+    "repositories": {},
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Haxibiao\\Store\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Haxibiao\\Store\\StoreServiceProvider"
+            ]
+        }
     }
-  ],
-  "require": {},
-  "repositories": {},
-  "minimum-stability": "dev",
-  "autoload": {
-    "psr-0": {
-      "Haxibiao\\Store\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "classmap": [
-      "tests/"
-    ]
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Haxibiao\\Store\\StoreServiceProvider"
-      ]
-    }
-  }
 }
