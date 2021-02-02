@@ -13,6 +13,9 @@ class CreateOrderActionsTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('order_actions')){
+            return;
+        }
         Schema::create('order_actions', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('order_id');

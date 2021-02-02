@@ -19,7 +19,7 @@ class CreateStoresTable extends Migration
             $table->String('name')->comment("名称");
             $table->String('description')->comment("分类描述");
             $table->Integer('status')->comment("1：上架，-1下架");
-
+            $table->json('data')->nullable()->comment('审核信息');
             $table->timestamps();
         });
     }
