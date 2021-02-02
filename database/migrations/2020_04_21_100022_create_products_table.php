@@ -20,8 +20,10 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('category_id')->index();
             $table->unsignedInteger('parent_id')->index()->nullable();
             $table->Integer('video_id')->index()->comment('视频id');
-
+            $table->string('address')->nullable();
             $table->String('name')->comment("名称:比如王者账号,衣服");
+            $table->unsignedInteger('valid_day')->nullable();
+            $table->string('phone')->nullable();
 
             //用于出售任何平台的账号商品
             // $table->json("platform_acounts")->index()->nullable()->comment("所有账号：[{platform:平台，account:账号，password:密码}]");
@@ -35,7 +37,10 @@ class CreateProductsTable extends Migration
             $table->String('dimension')->nullable()->index()->comment("规格，维度: 大号，1小时的，XL...");
             $table->String('dimension2')->default("安卓区")->nullable()->index()->comment("安卓区，ios区。。。");
 
+            $table->string('location')->index()->nullable();
             $table->Integer('status')->comment("1：上架，-1下架");
+            $table->double('open_time_at')->nullable();
+            $table->double('close_time_at')->nullable();
             $table->timestamps();
         });
     }

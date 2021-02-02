@@ -17,8 +17,8 @@ class CreateProductOrderTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('product_id')->index();
             $table->unsignedInteger('order_id')->index();
-            $table->unsignedInteger('price')->default(1)->comment('下单时的商品价格');
-            $table->unsignedInteger('amount')->default(1)->comment('商品数量');
+            $table->unsignedInteger('price')->default(0)->comment('下单时的商品价格');
+            $table->unsignedInteger('amount')->default(0)->comment('商品数量');
             $table->timestamps();
         });
     }

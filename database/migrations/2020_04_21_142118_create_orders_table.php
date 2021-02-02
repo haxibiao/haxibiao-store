@@ -16,7 +16,10 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->index();
-
+            $table->unsignedInteger('store_id')->index()->nullable();
+            $table->unsignedInteger('recharge_id')->index()->nullable();
+            $table->String("account")->after("user_id")->nullable()->comment("下单时的账号");
+            $table->String("password")->after("account")->nullable()->comment("下单时的密码");
             //用作nova后台展示订单关联账号
             $table->String('platformAccount_id')->after("created_at")->nullable()->index()->comment("订单账号");
             $table->String('number')->index()->comment("订单号");
