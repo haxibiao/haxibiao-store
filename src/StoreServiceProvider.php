@@ -3,6 +3,7 @@
 namespace Haxibiao\Store;
 
 use Haxibiao\Store\Console\InstallCommand;
+use Haxibiao\Store\Console\PublishCommand;
 use Illuminate\Support\ServiceProvider;
 
 class StoreServiceProvider extends ServiceProvider
@@ -18,6 +19,7 @@ class StoreServiceProvider extends ServiceProvider
         // Register Commands
         $this->commands([
             InstallCommand::class,
+            PublishCommand::class,
         ]);
         $this->bindPathsInContainer();
     }
@@ -30,8 +32,13 @@ class StoreServiceProvider extends ServiceProvider
     public function boot()
     {
         //注册 events - 运行时需要
-        PlatformAccount::observe(Observers\PlatformAccountObServer::class);
+        PlatformAccount::observe(Observers\PlatformAccountObserver::class);
         Refund::observe(Observers\RefundObserver::class);
+
+        //加载 路由
+        $this->loadRoutesFrom(
+            __DIR__ . '/../router.php'
+        );
 
         //安装时需要
         if ($this->app->runningInConsole()) {
@@ -41,40 +48,9 @@ class StoreServiceProvider extends ServiceProvider
                 __DIR__ . '/../graphql' => base_path('graphql'),
             ], 'store-graphql');
 
-            // 发布 tests
-            $this->publishes([
-                __DIR__ . '/../tests/Feature/GraphQL' => base_path('tests/Feature/GraphQL'),
-            ], 'store-tests');
-
-            // 发布 migrations
-            $this->publishes([
-                __DIR__ . '/../database/migrations' => base_path('database/migrations'),
-            ], 'store-tests');
-
-            // 发布 seed
-            $this->publishes([
-                __DIR__ . '/../database/seeds' => base_path('database/seeds'),
-            ], 'store-tests');
-
-            // 发布 factories
-            $this->publishes([
-                __DIR__ . '/../database/factories' => base_path('database/factories'),
-            ], 'store-tests');
-
-            // 发布 Nova
-            $this->publishes([
-                __DIR__ . '/Nova' => base_path('app/Nova'),
-            ], 'store-nova');
-
-            // // 发布 Factory
-            // $this->publishes([
-            //     __DIR__ . '/Factories' => base_path('app/Factories'),
-            // ], 'store-nova');
-
-            //注册 migrations paths
+            //加载 migrations
             $this->loadMigrationsFrom($this->app->make('path.haxibiao-store.migrations'));
         }
-        //注册 migrations paths
     }
 
     /**

@@ -1,18 +1,18 @@
 <?php
 namespace Database\Factories;
 
-use Haxibiao\Store\Product;
+use Haxibiao\Store\Store;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class ProductFactory extends Factory
+class StoreFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Product::class;
+    protected $model = Store::class;
 
     /**
      * Define the model's default state.
@@ -23,12 +23,9 @@ class ProductFactory extends Factory
     {
         return [
             'user_id'     => 0,
-            'store_id'    => 0,
-            'video_id'    => 0,
-            'name'        => '测试商品',
-            'description' => '测试商品介绍',
-            'price'       => 1,
+            'name'        => '测试商店',
+            'description' => 0,
+            'status'      => 1,
         ];
-
     }
 }

@@ -2,11 +2,10 @@
 
 namespace Haxibiao\Store\Observers;
 
-use App\Product;
-use App\PlatformAccount;
-use Illuminate\Support\Facades\DB;
+use Haxibiao\Store\PlatformAccount;
+use Haxibiao\Store\Product;
 
-class PlatformAccountObServer
+class PlatformAccountObserver
 {
     //
     public function created(PlatformAccount $platformAccount)

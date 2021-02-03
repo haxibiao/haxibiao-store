@@ -1,6 +1,8 @@
 <?php
 
-use App\ExchangeConfig;
+namespace Database\Seeders;
+
+use Haxibiao\Store\ExchangeConfig;
 use Illuminate\Database\Seeder;
 
 class ExchangeConfigSeeder extends Seeder

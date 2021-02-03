@@ -13,7 +13,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'store:install';
+    protected $signature = 'store:install {--force}';
 
     /**
      * The Console command description.
@@ -29,17 +29,15 @@ class InstallCommand extends Command
      */
     public function handle()
     {
+        $force = $this->option('force');
+
+        $this->callSilent('migrate');
+
         $this->info('发布 store');
-        $this->call('vendor:publish', ['--provider' => 'Haxibiao\Store\StoreServiceProvider', '--force']);
+        $this->callSilent('vendor:publish', ['--provider' => 'Haxibiao\Store\StoreServiceProvider', '--force' => $force]);
 
         $this->comment('复制 stubs ...');
-        copy($this->resolveStubPath('/stubs/Store.stub'), app_path('Store.php'));
-        copy($this->resolveStubPath('/stubs/Refund.stub'), app_path('Refund.php'));
-        copy($this->resolveStubPath('/stubs/Item.stub'), app_path('Item.php'));
-        copy($this->resolveStubPath('/stubs/Order.stub'), app_path('Order.php'));
-        copy($this->resolveStubPath('/stubs/PlatformAccount.stub'), app_path('PlatformAccount.php'));
-        copy($this->resolveStubPath('/stubs/Product.stub'), app_path('Product.php'));
-        copy($this->resolveStubPath('/stubs/ExchangeConfig.stub'), app_path('ExchangeConfig.php'));
+        copyStubs(__DIR__, $force);
     }
 
     protected function resolveStubPath($stub)

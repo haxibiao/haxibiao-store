@@ -22,10 +22,14 @@
     "autoload": {
         "psr-4": {
             "Haxibiao\\Store\\": "src/"
-        }
+        },
+        "classmap": [
+            "database/seeders/"
+        ]
     },
     "autoload-dev": {
         "classmap": [
+            "database/factories/",
             "tests/"
         ]
     },

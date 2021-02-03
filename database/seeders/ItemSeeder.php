@@ -1,6 +1,7 @@
 <?php
+namespace Database\Seeders;
 
-use App\Item;
+use Haxibiao\Store\Item;
 use Illuminate\Database\Seeder;
 
 class ItemSeeder extends Seeder

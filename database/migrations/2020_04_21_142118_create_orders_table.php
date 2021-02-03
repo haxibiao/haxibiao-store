@@ -18,10 +18,10 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('user_id')->index();
             $table->unsignedInteger('store_id')->index()->nullable();
             $table->unsignedInteger('recharge_id')->index()->nullable();
-            $table->String("account")->after("user_id")->nullable()->comment("下单时的账号");
-            $table->String("password")->after("account")->nullable()->comment("下单时的密码");
+            $table->String("account")->nullable()->comment("下单时的账号");
+            $table->String("password")->nullable()->comment("下单时的密码");
             //用作nova后台展示订单关联账号
-            $table->String('platformAccount_id')->after("created_at")->nullable()->index()->comment("订单账号");
+            $table->String('platformAccount_id')->nullable()->index()->comment("订单账号");
             $table->String('number')->index()->comment("订单号");
             $table->Integer('status')->comment("订单状态：0:未支付, 1:已支付|可用中, 2:已收货, 3：已过期(账号时间到)");
             $table->timestamps();

@@ -5,12 +5,14 @@ namespace Haxibiao\Store;
 use App\Image;
 use App\Product;
 use App\User;
+use Haxibiao\Breeze\Traits\HasFactory;
 use Haxibiao\Store\Traits\StoreRepo;
 use Haxibiao\Store\Traits\StoreResolvers;
 use Illuminate\Database\Eloquent\Model;
 
 class Store extends Model
 {
+    use HasFactory;
     use StoreResolvers;
     use StoreRepo;
 

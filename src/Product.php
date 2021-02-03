@@ -6,6 +6,8 @@ use App\Category;
 use App\Store;
 use App\User;
 use App\Video;
+use Haxibiao\Breeze\Traits\HasFactory;
+use Haxibiao\Media\Traits\Imageable;
 use Haxibiao\Store\Traits\ProductAttrs;
 use Haxibiao\Store\Traits\ProductRepo;
 use Haxibiao\Store\Traits\ProductResolvers;
@@ -13,9 +15,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use HasFactory;
     use ProductResolvers;
     use ProductAttrs;
     use ProductRepo;
+    use Imageable;
 
     protected $fillable = [
         'name',
@@ -70,6 +74,9 @@ class Product extends Model
             ->withTimestamps();
     }
 
+    /**
+     * 租号系统早期简单商品用图的关系， //TODO: 建议重构用Imageable特性的images关系
+     */
     public function image()
     {
         return $this->hasMany(\App\Image::class);
