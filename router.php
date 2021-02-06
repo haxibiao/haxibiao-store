@@ -7,7 +7,7 @@ Route::group(
     [
         'prefix'     => 'api',
         'middleware' => ['api'],
-        'namespace'  => 'Haxibiao\Store\Http\Controllers\Api',
+        'namespace'  => 'Haxibiao\Store\Http\Api',
     ],
     __DIR__ . '/routes/api.php'
 );
