@@ -9,44 +9,18 @@ use Laravel\Nova\Fields\Text;
 
 class ExchangeConfig extends Resource
 {
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
     public static $model = \App\ExchangeConfig::class;
     public static function label()
     {
-        return "充值兑换比例";
+        return "兑换配置";
     }
-
-    public static function singularLabel()
-    {
-        return "充值兑换比例";
-    }
-    public static $group = '交易管理';
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
+    public static $group = '交易中心';
     public static $title = 'name';
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
     public static $search = [
         'id', 'name', 'value',
     ];
 
-    /**
-     * Get the fields displayed by the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
     public function fields(Request $request)
     {
         return [
