@@ -75,7 +75,8 @@ class Product extends Model
     }
 
     /**
-     * 租号系统早期简单商品用图的关系， //TODO: 建议重构用Imageable特性的images关系
+     * 租号系统早期简单商品用图的关系，
+     * //TODO: 建议重构用Imageable特性的images关系
      */
     public function image()
     {
