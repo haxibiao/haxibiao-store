@@ -45,7 +45,7 @@ class StoreServiceProvider extends ServiceProvider
 
             // 发布 graphql
             $this->publishes([
-                __DIR__ . '/../graphql' => base_path('graphql'),
+                __DIR__ . '/../graphql' => base_path('graphql/store'),
             ], 'store-graphql');
 
             //加载 migrations
