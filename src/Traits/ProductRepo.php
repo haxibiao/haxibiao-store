@@ -2,7 +2,9 @@
 
 namespace Haxibiao\Store\Traits;
 
+use Haxibiao\Media\Video;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 trait ProductRepo
 {
@@ -10,7 +12,7 @@ trait ProductRepo
     public function saveVideoFile(UploadedFile $file)
     {
         $hash  = md5_file($file->getRealPath());
-        $video = \App\Video::firstOrNew([
+        $video = Video::firstOrNew([
             'hash' => $hash,
         ]);
         //        秒传
@@ -26,11 +28,9 @@ trait ProductRepo
     public function saveDownloadImage($file)
     {
         if ($file) {
-            $task_logo = 'product/product' . $this->id . '_' . time() . '.png';
-            $cosDisk   = \Storage::cloud();
-            $cosDisk->put($task_logo, \file_get_contents($file->path()));
-
-            return $task_logo;
+            $path = 'storage/app-' . env('APP_NAME') . '/products/' . $this->id . '_' . time() . '.png';
+            Storage::put($path, file_get_contents($file->path()));
+            return $path;
         }
     }
 }
