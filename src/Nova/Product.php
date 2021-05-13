@@ -42,11 +42,11 @@ class Product extends Resource
             Text::make('商品名称', "name")->rules('required'),
             Text::make('商品描述', 'description')->rules('required')->hideFromIndex(),
             Select::make('状态', 'status')->rules('required')->options([
-                1 => '上架',
+                1  => '上架',
                 -1 => '下架',
             ])->displayUsingLabels(),
             Select::make('所属商铺', 'store_id')->rules('required')->options(
-                \App\Store::where("user_id", getUser()->id)->pluck("name", "id")
+                \App\Store::where("user_id", $user->id)->pluck("name", "id")
             )->displayUsingLabels(),
 
             Select::make('分类', 'category_id')->rules('required')->options(
@@ -62,7 +62,7 @@ class Product extends Resource
 
             File::make('上传视频', 'video_id')->rules('required')->hideWhenUpdating()->hideFromDetail()->store(
                 function (Request $request, $model) {
-                    $file = $request->file('video_id');
+                    $file      = $request->file('video_id');
                     $validator = Validator::make($request->all(), [
                         'video' => 'mimetypes:video/avi,video/mp4,video/mpeg,video/quicktime',
                     ]);
@@ -73,7 +73,7 @@ class Product extends Resource
                 }),
             File::make('上传视频', 'video_id')->hideWhenCreating()->store(
                 function (Request $request, $model) {
-                    $file = $request->file('video_id');
+                    $file      = $request->file('video_id');
                     $validator = Validator::make($request->all(), [
                         'video' => 'mimetypes:video/avi,video/mp4,video/mpeg,video/quicktime',
                     ]);

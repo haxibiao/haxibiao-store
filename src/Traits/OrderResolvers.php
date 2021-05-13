@@ -13,7 +13,7 @@ trait OrderResolvers
     //下单
     public function makeOrder($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        if ($user = checkUser()) {
+        if ($user = currentUser()) {
             $product_id = $args['product_id']; //商品
             $item_id    = $args['item_id'] ?? null; //抵用券（金币）
             //2. 判断版本号
@@ -31,7 +31,7 @@ trait OrderResolvers
     //获取我的订单
     public function getMyOrders($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        if ($user = checkUser()) {
+        if ($user = currentUser()) {
             return Order::where("user_id", $user->id)->orderBy("created_at", "desc");
         } else {
             throw new GQLException("客户端没有登录。。。");
@@ -41,7 +41,7 @@ trait OrderResolvers
     //退单
     public function resovleBackOrder($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        if ($user = checkUser()) {
+        if ($user = currentUser()) {
             return Order::backOrder($args['order_id'], $args['content'] ?? "无理由", $args['images'] ?? null, $args['image_urls'] ?? null);
         } else {
             throw new GQLException("客户端没有登录。。。");

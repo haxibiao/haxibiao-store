@@ -11,7 +11,7 @@ trait ProductResolvers
 {
     //根据商店id查询商品
     // public function getProducts($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo){
-    //     if($user = checkUser()){
+    //     if($user = currentUser()){
 
     //         return Product::where('store_id',$args['store_id'])->whereIn("status",[0,1]);
     //     }else{
@@ -23,7 +23,7 @@ trait ProductResolvers
     public function getProductsByCategory($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
 
-        if ($user = checkUser()) {
+        if ($user = currentUser()) {
 
             $qb = Product::with("image")
                 ->where('category_id', $args['category_id'])

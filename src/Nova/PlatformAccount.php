@@ -34,7 +34,6 @@ class PlatformAccount extends Resource
 
     public function fields(Request $request)
     {
-        $user = getUser();
         return [
             ID::make()->sortable(),
             // BelongsTo::make("使用用户", "user", User::class)->onlyOnIndex(),

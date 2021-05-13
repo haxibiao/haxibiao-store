@@ -39,16 +39,16 @@ class Store extends Resource
             ID::make()->sortable(),
             Text::make('商铺名称', "name")->rules('required'),
             // Text::make('用户', function () {
-            //     return getUser()->name;
+            //     return $user->name;
             // }),
             Select::make('店铺老板', 'user_id')->rules('required')->options(
-                \App\User::where("id", is_null(getUser()->store) ? getUser()->id : -1)->pluck("name", "id")
+                \App\User::where("id", is_null($user->store) ? $user->id : -1)->pluck("name", "id")
             )->displayUsingLabels(),
             HasMany::make("店铺商品", "product", Product::class),
             Text::make('商铺介绍', 'description')->rules('required'),
             HasMany::make('上传图片', 'image', Image::class),
             Select::make('状态', 'status')->rules('required')->options([
-                1 => '上架',
+                1  => '上架',
                 -1 => '下架',
             ])->displayUsingLabels(),
 

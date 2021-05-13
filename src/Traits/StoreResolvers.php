@@ -12,7 +12,7 @@ trait StoreResolvers
     //根据用户id查询店铺
     public function getStores($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        if ($user = checkUser()) {
+        if ($user = currentUser()) {
             $store = Store::with("product")
                 ->where('user_id', $args['user_id'])->where("status", 1)->first();
             if (empty($store)) {

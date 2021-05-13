@@ -42,7 +42,7 @@ trait ItemRepo
     //我的道具
     public static function myItems()
     {
-        if ($user = checkUser()) {
+        if ($user = currentUser()) {
             return $user->items()->get();
         }
     }
