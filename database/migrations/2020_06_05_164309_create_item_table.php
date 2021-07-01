@@ -13,6 +13,9 @@ class CreateItemTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('items')) {
+            return;
+        }
         //道具表
         Schema::create('items', function (Blueprint $table) {
             $table->bigIncrements('id');
