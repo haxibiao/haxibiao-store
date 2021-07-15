@@ -1,4 +1,4 @@
-extend type mutation {
+extend type Mutation {
   createStore(input:CreateStore):Store @field(resolver:"App\\Store@resolveCreateStore")
 }
 
