@@ -16,11 +16,8 @@ class Store extends Model
     use StoreResolvers;
     use StoreRepo;
 
-    protected $fillable = [
-        'user_id',
-        'name',
-        'description',
-        'status',
+    protected $guarded = [
+
     ];
 
     public function user()

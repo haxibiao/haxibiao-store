@@ -2,9 +2,13 @@ type Store {
   id: Int!
   user: User!
   product: [Product]
-  image: [Image!]
   name: String!
-  description: String
+  description:String
+  location_id:Int
+  work_time:String
+  phone_number:String
+  wechat_number:String
+  image: [Image!]
   status: StoreStatus
   created_at: DateTime!
   updated_at: DateTime!
