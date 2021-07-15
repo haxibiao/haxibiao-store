@@ -2,13 +2,26 @@
 
 namespace Haxibiao\Store\Traits;
 
-use App\Exceptions\GQLException;
 use App\Store;
 use GraphQL\Type\Definition\ResolveInfo;
+use Haxibiao\Breeze\Exceptions\GQLException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 trait StoreResolvers
 {
+
+    //创建店铺信息
+    public function resolveCreateStore($root, $args, $context, $resolveInfo)
+    {
+        $user = getUser();
+        app_track_event("用户", "创建店铺");
+        $store = Store::firstOrNew([
+            'user_id' => $user->id,
+            'name'    => $args['description'],
+        ]);
+        $store->fill($args)->save();
+    }
+
     //根据用户id查询店铺
     public function getStores($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
