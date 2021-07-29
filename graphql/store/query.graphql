@@ -4,6 +4,8 @@ type Store {
   product: [Product]
   name: String!
   description: String
+  logo: String
+  images: [String]
   """
   定位信息
   """
@@ -11,7 +13,7 @@ type Store {
   work_time: String
   phone_number: String
   wechat_number: String
-  image: [Image!]
+  images: [Image!]
   status: StoreStatus
   created_at: DateTime!
   updated_at: DateTime!

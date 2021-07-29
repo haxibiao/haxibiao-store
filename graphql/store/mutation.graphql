@@ -5,6 +5,8 @@ extend type Mutation {
 input CreateStore {
   name: String!
   description: String
+  logo: String
+  images: [String]
   """
   定位信息
   """

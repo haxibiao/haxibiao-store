@@ -17,12 +17,12 @@ class CreateStoresTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id');
             $table->String('name')->comment("名称");
-            $table->String('description')->comment("分类描述");
-            $table->unsignedInteger('location_id')->nullable()->index()->comment('定位地址');
+            $table->String('description')->nullable()->comment("描述");
+            $table->String('logo')->comment("商铺LOGO");
             $table->string('work_time')->nullable()->comment('营业时间');
             $table->string('phone_number')->nullable()->comment('手机号');
             $table->string('wechat_number')->nullable()->comment('微信号');
-            $table->Integer('status')->comment("1：上架，-1下架");
+            $table->Integer('status')->default(1)->comment("1：上架，-1下架");
             $table->json('data')->nullable()->comment('审核信息');
             $table->timestamps();
         });

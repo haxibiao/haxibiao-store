@@ -6,6 +6,7 @@ use App\Store;
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Content\Location;
+use Haxibiao\Media\Image;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 trait StoreResolvers
@@ -20,8 +21,30 @@ trait StoreResolvers
             'user_id' => $user->id,
             'name'    => $args['description'],
         ]);
-        $location = data_get($args, 'location') ?? null;
-        $store->fill(array_except($args, ['location']))->save();
+        $location = data_get($args, 'location', null);
+        $images   = data_get($args, 'images', null);
+        $logo     = data_get($args, 'logo', null);
+        $store->fill(array_except($args, ['location', 'images', 'logo']))->save();
+
+        //图片
+        if ($images) {
+            $imageIds = [];
+            foreach ($images as $image) {
+                $model      = Image::saveImage($image);
+                $imageIds[] = $model->id;
+            }
+            $store->images()->sync($imageIds);
+        }
+
+        //保存LOGO
+        if (!blank($logo)) {
+            $image = Image::saveImage($logo);
+            if (!empty($image)) {
+                $store->update(['logo' => $image->path]);
+            }
+        }
+
+        //地址
         if ($location) {
             Location::storeLocation($location, 'stores', $store->id);
         }
