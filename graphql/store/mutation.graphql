@@ -1,12 +1,15 @@
 extend type Mutation {
-  createStore(input:CreateStore):Store @field(resolver:"App\\Store@resolveCreateStore")
+  createStore(input: CreateStore): Store @field(resolver: "App\\Store@resolveCreateStore")
 }
 
 input CreateStore {
-  name:String!
-  description:String
-  location_id:Int
-  work_time:String
-  phone_number:String
-  wechat_number:String
+  name: String!
+  description: String
+  """
+  定位信息
+  """
+  location: LocationInfo
+  work_time: String
+  phone_number: String
+  wechat_number: String
 }

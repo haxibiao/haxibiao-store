@@ -5,6 +5,7 @@ namespace Haxibiao\Store\Traits;
 use App\Store;
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
+use Haxibiao\Content\Location;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 trait StoreResolvers
@@ -19,7 +20,12 @@ trait StoreResolvers
             'user_id' => $user->id,
             'name'    => $args['description'],
         ]);
-        $store->fill($args)->save();
+        $location = data_get($args, 'location') ?? null;
+        $store->fill(array_except($args, ['location']))->save();
+        if ($location) {
+            Location::storeLocation($location, 'stores', $store->id);
+        }
+
     }
 
     //根据用户id查询店铺

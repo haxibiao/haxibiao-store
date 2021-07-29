@@ -3,11 +3,14 @@ type Store {
   user: User!
   product: [Product]
   name: String!
-  description:String
-  location_id:Int
-  work_time:String
-  phone_number:String
-  wechat_number:String
+  description: String
+  """
+  定位信息
+  """
+  location: LocationInfo
+  work_time: String
+  phone_number: String
+  wechat_number: String
   image: [Image!]
   status: StoreStatus
   created_at: DateTime!

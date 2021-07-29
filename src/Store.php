@@ -34,4 +34,15 @@ class Store extends Model
     {
         return $this->hasMany(\App\Image::class);
     }
+
+    //定位功能
+    public function locations()
+    {
+        return $this->morphMany(Location::class, 'located');
+    }
+
+    public function getLocationAttribute()
+    {
+        return $this->locations->last();
+    }
 }
