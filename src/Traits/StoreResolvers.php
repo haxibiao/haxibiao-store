@@ -49,6 +49,7 @@ trait StoreResolvers
         if ($location) {
             Location::storeLocation($location, 'stores', $store->id);
         }
+        return $store;
 
     }
 
