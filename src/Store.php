@@ -49,11 +49,11 @@ class Store extends Model
     public function getLogoAttribute()
     {
 
-        $avatar = $this->getRawOriginal('avatar');
-        if (empty($avatar)) {
+        $logo = $this->getRawOriginal('logo');
+        if (empty($logo)) {
             //给个默认图片
             return null;
         }
-        return cdnurl($avatar);
+        return cdnurl($logo);
     }
 }
