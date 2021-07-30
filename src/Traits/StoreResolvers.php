@@ -15,6 +15,7 @@ trait StoreResolvers
     //创建店铺信息
     public function resolveCreateStore($root, $args, $context, $resolveInfo)
     {
+        $args = $args['input'];
         $user = getUser();
         app_track_event("用户", "创建店铺");
         $store = Store::firstOrNew([
