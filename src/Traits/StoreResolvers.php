@@ -74,7 +74,7 @@ trait StoreResolvers
         // if ($user = currentUser()) {
         return Store::query()
             ->when($args['name'] ?? null, function ($qb) use ($args) {
-                return $qb->where('name', $args['name']);
+                return $qb->where('name', 'like', '%' . $args['name'] . '%');
             })
             ->where("status", 1);
         // } else {
