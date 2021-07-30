@@ -20,6 +20,11 @@ class Store extends Model
 
     ];
 
+    public function getMorphClass()
+    {
+        return 'stores';
+    }
+
     public function user()
     {
         return $this->belongsTo(\App\User::class);
@@ -38,7 +43,7 @@ class Store extends Model
     //定位功能
     public function locations()
     {
-        return $this->morphMany(Location::class, 'located');
+        return $this->morphMany(\App\Location::class, 'located');
     }
 
     public function getLocationAttribute()
