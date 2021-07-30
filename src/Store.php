@@ -45,4 +45,15 @@ class Store extends Model
     {
         return $this->locations->last();
     }
+
+    public function getLogoAttribute()
+    {
+
+        $avatar = $this->getRawOriginal('avatar');
+        if (empty($avatar)) {
+            //给个默认图片
+            return null;
+        }
+        return cdnurl($avatar);
+    }
 }
