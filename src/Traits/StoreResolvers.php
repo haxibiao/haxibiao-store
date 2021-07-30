@@ -19,7 +19,7 @@ trait StoreResolvers
         app_track_event("用户", "创建店铺");
         $store = Store::firstOrNew([
             'user_id' => $user->id,
-            'name'    => $args['description'],
+            'name'    => $args['name'],
         ]);
         $location = data_get($args, 'location', null);
         $images   = data_get($args, 'images', null);
