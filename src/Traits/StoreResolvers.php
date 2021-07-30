@@ -53,7 +53,7 @@ trait StoreResolvers
     }
 
     //根据用户id查询店铺
-    public function getStores($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    public function resolveGetStore($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         if ($user = currentUser()) {
             $store = Store::with("product")
@@ -65,6 +65,20 @@ trait StoreResolvers
         } else {
             throw new GQLException("客户端没有登录。。。");
         }
+    }
+
+    //根据用户id查询店铺
+    public function resolveGetStores($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        // if ($user = currentUser()) {
+        return Store::query()
+            ->when($args['name'] ?? null, function ($qb) use ($args) {
+                return $qb->where('name', $args['name']);
+            })
+            ->where("status", 1);
+        // } else {
+        //     throw new GQLException("客户端没有登录。。。");
+        // }
     }
 
     //根据商铺id查询店铺
