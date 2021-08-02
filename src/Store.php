@@ -3,6 +3,7 @@
 namespace Haxibiao\Store;
 
 use App\Image;
+use App\Location;
 use App\Product;
 use App\User;
 use Haxibiao\Breeze\Traits\HasFactory;
@@ -60,5 +61,24 @@ class Store extends Model
             return null;
         }
         return cdnurl($logo);
+    }
+
+    public function getDistanceAttribute()
+    {
+        if ($user = currentUser()) {
+            if (!empty($user->location) && !empty($this->location)) {
+                $longitude1 = $user->location->longitude;
+                $latitude1  = $user->location->latitude;
+                $longitude2 = $this->location->longitude;
+                $latitude2  = $this->location->latitude;
+                if ($longitude1 && $latitude1 && $longitude2 && $latitude2) {
+                    $distance = Location::getDistance($longitude1, $latitude1, $longitude2, $latitude2, 1);
+                    return numberToReadable($distance) . 'm';
+                }
+            }
+        } else {
+            return null;
+        }
+
     }
 }

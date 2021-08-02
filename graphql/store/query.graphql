@@ -10,6 +10,10 @@ type Store {
   定位信息
   """
   location: Location
+  """
+  定位距离信息
+  """
+  distance: String
   work_time: String
   phone_number: String
   wechat_number: String
