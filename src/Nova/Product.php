@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nova;
+namespace Haxibiao\Store\Nova;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

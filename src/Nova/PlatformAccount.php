@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nova;
+namespace Haxibiao\Store\Nova;
 
 use App\Nova\Filters\PlatformAccount\PlatformAccountStatus;
 use Illuminate\Http\Request;

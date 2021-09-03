@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Nova;
+namespace Haxibiao\Store\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 
@@ -66,20 +64,20 @@ class Refund extends Resource
                 ->thumbnail(function () {
                     return $this->getImageItemUrl(0);
                 })->preview(function () {
-                    return $this->getImageItemUrl(0);
-                })->disableDownload(),
+                return $this->getImageItemUrl(0);
+            })->disableDownload(),
             Image::make('图片2', 'images')
                 ->thumbnail(function () {
                     return $this->getImageItemUrl(1);
                 })->preview(function () {
-                    return $this->getImageItemUrl(1);
-                })->disableDownload(),
+                return $this->getImageItemUrl(1);
+            })->disableDownload(),
             Image::make('图片3', 'images')
                 ->thumbnail(function () {
                     return $this->getImageItemUrl(2);
                 })->preview(function () {
-                    return $this->getImageItemUrl(2);
-                })->disableDownload(),
+                return $this->getImageItemUrl(2);
+            })->disableDownload(),
             Select::make('类型', 'status')->options([
                 0 => '待处理',
                 1 => '驳回申请',

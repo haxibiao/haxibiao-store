@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use Haxibiao\Store\TechnicianProfile as BaseTechnicianProfile;
+
+class TechnicianProfile extends BaseTechnicianProfile
+{
+    //
+}

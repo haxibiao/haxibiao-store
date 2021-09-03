@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nova;
+namespace Haxibiao\Store\Nova;
 
 use App\Nova\Product;
 use App\Nova\User;
