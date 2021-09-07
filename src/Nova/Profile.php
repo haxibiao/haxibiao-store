@@ -7,7 +7,6 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Resource;
 
@@ -37,7 +36,6 @@ class Profile extends Resource
             Number::make('年龄', 'age'),
             Textarea::make('介绍', 'introduction'),
             Select::make('性别', 'gender')->default(\App\User::FEMALE_GENDER)->options(\App\User::getGenders())->displayUsingLabels(),
-            Text::make('QQ', 'qq'),
             DateTime::make('创建时间', 'created_at')
                 ->hideWhenUpdating()->hideWhenCreating(),
             DateTime::make('登录时间', 'updated_at')
