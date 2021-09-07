@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Store\Nova;
 
+use App\Nova\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Nova\Fields\File;
@@ -49,7 +50,7 @@ class Product extends Resource
                 \App\Store::where("user_id", $user->id)->pluck("name", "id")
             )->displayUsingLabels(),
 
-            Select::make('分类', 'category_id')->rules('required')->options(
+            Select::make('分类', 'category_id')->options(
                 \App\Category::where('type', 'product')->pluck('name', 'id')
             )->displayUsingLabels(),
 
@@ -60,7 +61,7 @@ class Product extends Resource
 
             HasMany::make('上传图片', 'image', Image::class),
 
-            File::make('上传视频', 'video_id')->rules('required')->hideWhenUpdating()->hideFromDetail()->store(
+            File::make('上传视频', 'video_id')->hideWhenUpdating()->hideFromDetail()->store(
                 function (Request $request, $model) {
                     $file      = $request->file('video_id');
                     $validator = Validator::make($request->all(), [

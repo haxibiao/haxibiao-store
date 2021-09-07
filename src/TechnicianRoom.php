@@ -16,12 +16,17 @@ class TechnicianRoom extends Model
 
     public function getUsersAttribute()
     {
-        return User::whereIn('id', $this->uids)->get();
+        if ($this->uids) {
+            return User::whereIn('id', $this->uids)->get();
+        }
+        return null;
     }
 
     public function getTechnicianUsersAttribute()
     {
-        return User::whereIn('id', $this->tids)->get();
+        if ($this->tids) {
+            return User::whereIn('id', $this->tids)->get();
+        }
     }
 
     //用户状态：参考qq、微信状态
