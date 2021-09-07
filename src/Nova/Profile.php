@@ -18,6 +18,8 @@ class Profile extends Resource
         'id',
     ];
 
+    public static $displayInNavigation = false;
+
     public static function label()
     {
         return '技师信息';

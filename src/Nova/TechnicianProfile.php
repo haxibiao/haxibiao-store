@@ -15,6 +15,8 @@ class TechnicianProfile extends Resource
 
     use SortRelations;
 
+    public static $displayInNavigation = false;
+
     public static $model  = \App\TechnicianProfile::class;
     public static $title  = 'id';
     public static $search = [

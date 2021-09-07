@@ -13,10 +13,13 @@ class CreateTechnicianRoomsTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('technician_rooms')) {
+            Schema::drop('technician_rooms');
+        }
         Schema::create('technician_rooms', function (Blueprint $table) {
             $table->id();
-            $table->integer('uids')->index()->comment('客户们的id');
-            $table->integer('tids')->index()->comment('技师们的id');
+            $table->json('uids')->nullable()->comment('客户们的id');
+            $table->json('tids')->nullable()->comment('技师们的id');
             $table->integer('status')->default(0)->comment('0空闲中|1忙碌中');
             $table->timestamps();
         });
