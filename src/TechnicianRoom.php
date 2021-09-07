@@ -25,7 +25,7 @@ class TechnicianRoom extends Model
     }
 
     //用户状态：参考qq、微信状态
-    public function getStatus()
+    public static function getStatus()
     {
         return [
             self::FREE_STATUS    => "空闲中",
