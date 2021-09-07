@@ -1,0 +1,26 @@
+type TechnicianRoom {
+  id: Int!
+  """
+  客户
+  """
+  users:[User]
+  """
+  技师
+  """
+  technicianUsers:[User]
+  status:Int
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+extend type Query {
+  """
+  查看房间列表(支持状态搜索)
+  """
+  technicianRooms(status: TechnicianStatus): [TechnicianRoom!] @paginate(defaultCount: 10, builder: "App\\TechnicianRoom@resolveTehnicianRooms")
+}
+
+enum TechnicianStatus {
+  FREE_STATUS @enum(value:0)
+  SERVICE_STATUS @enum(value:1)
+}
