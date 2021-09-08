@@ -42,6 +42,9 @@ class Product extends Resource
             ID::make()->sortable(),
             Text::make('商品名称', "name")->rules('required'),
             Text::make('商品描述', 'description')->rules('required')->hideFromIndex(),
+            // Select::make('店铺老板', 'user_id')->rules('required')->options(
+            //     \App\User::where("id", is_null($user->store) ? $user->id : -1)->pluck("name", "id")
+            // )->displayUsingLabels(),
             Select::make('状态', 'status')->rules('required')->options([
                 1  => '上架',
                 -1 => '下架',
@@ -50,11 +53,11 @@ class Product extends Resource
                 \App\Store::where("user_id", $user->id)->pluck("name", "id")
             )->displayUsingLabels(),
 
-            Select::make('分类', 'category_id')->options(
-                \App\Category::where('type', 'product')->pluck('name', 'id')
-            )->displayUsingLabels(),
+            // Select::make('分类', 'category_id')->options(
+            //     \App\Category::where('type', 'product')->pluck('name', 'id')
+            // )->displayUsingLabels(),
 
-            HasMany::make("游戏账号", "platformAccount", PlatformAccount::class),
+            // HasMany::make("游戏账号", "platformAccount", PlatformAccount::class),
             Text::make('商品价格', 'price'),
             Text::make('上架数量', 'available_amount')->onlyOnIndex(),
             Text::make('商品规格', 'dimension'),

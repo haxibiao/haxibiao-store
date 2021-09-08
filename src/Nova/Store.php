@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Store\Nova;
 
+use App\Nova\Image;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;

@@ -13,6 +13,9 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('products')) {
+            Schema::drop('products');
+        }
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->index()->comment('店家用户id');

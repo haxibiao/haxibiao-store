@@ -37,6 +37,17 @@ class Product extends Model
         'video_id',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+        //保存时触发
+        self::saving(function ($model) {
+            if (empty($model->user_id)) {
+                $model->user_id = $model->store->user_id;
+            }
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(\App\User::class);
