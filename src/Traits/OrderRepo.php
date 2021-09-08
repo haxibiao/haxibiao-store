@@ -5,20 +5,46 @@ namespace Haxibiao\Store\Traits;
 use App\Gold;
 use App\Image;
 use App\Order;
-use Exception;
-use App\Refund;
-use App\Product;
 use App\PlatformAccount;
-use App\Exceptions\GQLException;
-use Haxibiao\Helpers\BadWordUtils;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use App\Refund;
+use Haxibiao\Breeze\Exceptions\GQLException;
+use Haxibiao\Helpers\utils\BadWordUtils as UtilsBadWordUtils;
 use Haxibiao\Store\Jobs\OrderAutoExpire;
 use Haxibiao\Store\Notifications\PlatformAccountExpire;
+use Haxibiao\Store\Product;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 trait OrderRepo
 {
-    public function createOrder($product_id, $item_id, $dimension, $dimension2 = 1)
+    public function createOrder($user, $product_id)
+    {
+        //是否下架
+        $product = Product::where("id", $product_id)
+            ->where("status", 1)
+            ->first();
+        if (empty($product)) {
+            throw new GQLException("该商品已下架！");
+        }
+
+        //支付再后面
+        $order = Order::create([
+            "user_id" => $user->id,
+            "number"  => time(),
+            "status"  => Order::UNPAY,
+        ]);
+
+        $order->products()->syncWithoutDetaching([
+            $product_id => [
+                'amount' => 1,
+                'price'  => $product->price,
+            ],
+        ]);
+
+        return $order;
+    }
+
+    public function createGameOrder($product_id, $item_id, $dimension, $dimension2 = 1)
     {
         //规格1:皮肤名   dimension
         //规格2:租借时间   dimension2
@@ -76,7 +102,7 @@ trait OrderRepo
             DB::commit();
 
             return $order;
-        } catch (\Exception $e) {
+        } catch (\Exception$e) {
             DB::rollback();
             Log::error($e);
             throw new GQLException("未知异常，订单取消");
@@ -126,7 +152,7 @@ trait OrderRepo
 
         //6.通知用户(订单剩余十分钟)
         $user->notify((new PlatformAccountExpire($platform_account))->delay(now()
-            ->addHour($dimension2)->subMinutes(10)));
+                ->addHour($dimension2)->subMinutes(10)));
         //更新订单和账号状态为已过期
         \dispatch(new OrderAutoExpire($platform_account, $order))
             ->delay(now()->addHour($dimension2));
@@ -137,7 +163,7 @@ trait OrderRepo
     {
         app_track_event('用户页', '订单退款');
 
-        $user    = getUser();
+        $user  = getUser();
         $order = Order::find($order_id);
         if (empty($order)) {
             throw new GQLException("不存在该订单！");
@@ -151,13 +177,13 @@ trait OrderRepo
             throw new GQLException("下单已超过十分钟，退单失败！");
         }
 
-        if (BadWordUtils::check($content)) {
+        if (UtilsBadWordUtils::check($content)) {
             throw new GQLException('退款理由中含有包含非法内容,请删除后再试!');
         }
         $refund = Refund::firstOrCreate([
-            'user_id' => $user->id,
+            'user_id'  => $user->id,
             'order_id' => $order_id,
-            'content' => $content,
+            'content'  => $content,
         ]);
 
         if (!empty($images)) {

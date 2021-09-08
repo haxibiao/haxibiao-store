@@ -6,12 +6,25 @@ use App\Aso;
 use App\Exceptions\GQLException;
 use App\Order;
 use GraphQL\Type\Definition\ResolveInfo;
+use Haxibiao\Breeze\Exceptions\UserException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 trait OrderResolvers
 {
     //下单
     public function makeOrder($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        if ($user = currentUser()) {
+            $product_id = $args['product_id']; //商品
+            $item_id    = $args['item_id'] ?? null; //抵用券（金币）
+            return $this->createOrder($user, $product_id);
+        } else {
+            throw new UserException("客户端没有登录。。。");
+        }
+    }
+
+    //下单
+    public function makeGameOrder($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         if ($user = currentUser()) {
             $product_id = $args['product_id']; //商品
