@@ -3,9 +3,9 @@
 namespace Haxibiao\Store\Traits;
 
 use App\Aso;
-use App\Exceptions\GQLException;
 use App\Order;
 use GraphQL\Type\Definition\ResolveInfo;
+use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
@@ -16,8 +16,7 @@ trait OrderResolvers
     {
         if ($user = currentUser()) {
             $product_id = $args['product_id']; //商品
-            $item_id    = $args['item_id'] ?? null; //抵用券（金币）
-            return $this->createOrder($user, $product_id);
+            return Order::createOrder($user, $product_id);
         } else {
             throw new UserException("客户端没有登录。。。");
         }
@@ -35,7 +34,7 @@ trait OrderResolvers
             if (is_null($dimension) || is_null($dimension2)) {
                 throw new GQLException('当前版本过低,请更新后再尝试租号,详情咨询QQ群:' . Aso::getValue("功能页", "动态修改群qq号"));
             }
-            return $this->createOrder($product_id, $item_id, $dimension, $dimension2);
+            return Order::createGameOrder($product_id, $item_id, $dimension, $dimension2);
         } else {
             throw new GQLException("客户端没有登录。。。");
         }

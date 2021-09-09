@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 
 trait OrderRepo
 {
-    public function createOrder($user, $product_id)
+    public static function createOrder($user, $product_id)
     {
         //是否下架
         $product = Product::where("id", $product_id)
@@ -44,7 +44,7 @@ trait OrderRepo
         return $order;
     }
 
-    public function createGameOrder($product_id, $item_id, $dimension, $dimension2 = 1)
+    public static function createGameOrder($product_id, $item_id, $dimension, $dimension2 = 1)
     {
         //规格1:皮肤名   dimension
         //规格2:租借时间   dimension2
