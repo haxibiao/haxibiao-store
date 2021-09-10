@@ -41,6 +41,9 @@ class TechnicianProfile extends Resource
 
             Number::make('编号', 'number'),
             Number::make('评分', 'rating')->default(0),
+            Select::make('所属商铺', 'store_id')->rules('required')->options(
+                \App\Store::where("user_id", getUser()->id)->pluck("name", "id")
+            )->displayUsingLabels(),
 
             Number::make('服务次数', 'serve_count')->default(0),
 
