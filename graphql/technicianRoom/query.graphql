@@ -13,7 +13,7 @@ extend type Query {
   """
   查看技师列表(支持状态搜索)
   """
-  technicianUsers(store_id: Int!, status: TechnicianStatus): [User!]
+  technicianUsers(store_id: Int, status: TechnicianStatus): [User!]
     @paginate(defaultCount: 10, builder: "App\\User@resolveTehnicianUsers")
 }
 
