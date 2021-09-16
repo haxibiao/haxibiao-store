@@ -1,9 +1,13 @@
-type TechnicianProfile {
+type TechnicianRoom {
   id: Int!
-  user: User
-  serve_count: Int
-  number: Int
-  rating: Int
+  """
+  客户
+  """
+  users: [User]
+  """
+  技师
+  """
+  technicianUsers: [User]
   status: Int
   created_at: DateTime!
   updated_at: DateTime!
@@ -11,14 +15,13 @@ type TechnicianProfile {
 
 extend type Query {
   """
-  查看技师列表(支持状态搜索)
+  查看房间列表(支持状态搜索)
   """
-  technicianUsers(store_id: Int, status: TechnicianStatus): [User!]
-    @paginate(defaultCount: 10, builder: "App\\User@resolveTehnicianUsers")
+  technicianRooms(status: TechnicianStatus): [TechnicianRoom!]
+    @paginate(defaultCount: 10, builder: "App\\TechnicianRoom@resolveTehnicianRooms")
 }
 
 enum TechnicianStatus {
-  NOT_WORK_STATUS @enum(value: 0)
-  FREE_STATUS @enum(value: 1)
-  WORK_STATUS @enum(value: 2)
+  FREE_STATUS @enum(value: 0)
+  SERVICE_STATUS @enum(value: 1)
 }

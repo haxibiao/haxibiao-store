@@ -20,5 +20,5 @@ type Product {
 
 extend type Query {
   product(id: Int! @eq): Product @find
-  products(store_id: Int): [Product!] @paginate(defaultCount: 10, builder: "App\\Product@getProductsByCategory")
+  products(store_id: Int): [Product!] @paginate(defaultCount: 10, builder: "App\\Product@getProducts")
 }
