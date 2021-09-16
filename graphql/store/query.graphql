@@ -29,11 +29,11 @@ extend type Query {
   """
   附近店铺
   """
-  nearByStores:[Store!] @paginate(builder: "App\\Store@resolveNearByStores", defaultCount: 10)
+  nearByStores: [Store!] @paginate(builder: "App\\Store@resolveNearByStores", defaultCount: 10)
   """
   同城店铺
   """
-  cityStores:[Store!] @paginate(builder: "App\\Store@resolveCityStoresStores", defaultCount: 10)
+  cityStores: [Store!] @paginate(builder: "App\\Store@resolveCityStores", defaultCount: 10)
   getStoresById(id: Int! @eq): [Store!] @paginate(defaultCount: 10, builder: "App\\Store@getStoresById")
 }
 
