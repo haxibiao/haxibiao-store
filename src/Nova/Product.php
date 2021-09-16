@@ -3,6 +3,7 @@
 namespace Haxibiao\Store\Nova;
 
 use App\Nova\Image;
+use Haxibiao\Breeze\Nova\Actions\User\UpdateUserServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Nova\Fields\File;
@@ -111,7 +112,7 @@ class Product extends Resource
     public function actions(Request $request)
     {
         return [
-
+            new UpdateUserServices,
         ];
     }
 }

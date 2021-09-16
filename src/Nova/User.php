@@ -3,10 +3,10 @@
 namespace Haxibiao\Store\Nova;
 
 use App\Role;
-use Haxibiao\Breeze\Nova\Actions\User\AddMasterAccount;
 use Haxibiao\Breeze\Nova\Actions\User\UpdateUserStatus;
 use Haxibiao\Breeze\Nova\Filters\User\UserRoleID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasOne;
@@ -114,6 +114,7 @@ class User extends Resource
 
             HasOne::make('技师信息', 'technicianProfile', TechnicianProfile::class, ),
             HasOne::make('用户信息', 'profile', Profile::class),
+            BelongsToMany::make('服务项目', 'services', Product::class),
 
             DateTime::make('创建时间', 'created_at')
                 ->hideWhenUpdating()->hideWhenCreating(),
@@ -168,7 +169,6 @@ class User extends Resource
     public function actions(Request $request)
     {
         return [
-            new AddMasterAccount,
             new UpdateUserStatus,
         ];
     }

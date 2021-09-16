@@ -53,6 +53,11 @@ class Product extends Model
         return $this->belongsTo(\App\User::class);
     }
 
+    public function technicianUsers()
+    {
+        return $this->belongsToMany(\App\User::class, 'technician_products');
+    }
+
     public function store()
     {
         return $this->belongsTo(\App\Store::class);
