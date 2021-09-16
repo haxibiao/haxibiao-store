@@ -3,7 +3,6 @@
 namespace Haxibiao\Store;
 
 use App\PlatformAccount;
-use App\Product;
 use App\User;
 use Haxibiao\Store\Traits\OrderAttrs;
 use Haxibiao\Store\Traits\OrderRepo;
@@ -23,10 +22,12 @@ class Order extends Model
         'platformAccount_id',
     ];
 
-    const UNPAY    = 0; //未支付
+    const RESERVE  = -1; //已预约
+    const UNPAY    = 0; //未支付|已接单
     const PAID     = 1; //已支付
     const RECEIVED = 2; //已到货
     const EXPIRE   = 3; //已过期
+    const CANCEL   = 4; //已取消
 
     const REFUND_TIME = 600; //订单可退款时间（s）
     public function user()

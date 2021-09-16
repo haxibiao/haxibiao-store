@@ -16,7 +16,8 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->index();
-            $table->unsignedInteger('store_id')->index()->nullable();
+            $table->unsignedInteger('store_id')->index()->nullable()->comment('关联店铺');
+            $table->unsignedInteger('technician_id')->index()->nullable()->comment('关联技师');
             $table->unsignedInteger('recharge_id')->index()->nullable();
             $table->String("account")->nullable()->comment("下单时的账号");
             $table->String("password")->nullable()->comment("下单时的密码");

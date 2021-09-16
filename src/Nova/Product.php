@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Resource;
@@ -62,6 +63,7 @@ class Product extends Resource
             Text::make('商品价格', 'price'),
             Text::make('上架数量', 'available_amount')->onlyOnIndex(),
             Text::make('商品规格', 'dimension'),
+            Number::make('服务时长', 'service_duration')->min(1)->max(1000)->step(0.01),
 
             HasMany::make('上传图片', 'image', Image::class),
 

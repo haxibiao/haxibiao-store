@@ -11,6 +11,35 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 trait OrderResolvers
 {
+    //修改订单状态
+    public function resolveUpdateOrderStatus($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        if ($user = currentUser()) {
+            $order_id = $args['order_id']; //订单id
+            $status   = $args['status']; //状态
+            if (!in_array($status, [Order::UNPAY, Order::CANCEL])) {
+                throw new UserException("暂不支持其他操作");
+            }
+
+            $order = Order::findOrFail($order_id);
+            return $order->update(['status' => $status]);
+        } else {
+            throw new UserException("客户端没有登录。。。");
+        }
+    }
+
+    //预约技师
+    public function resolveReserveTechnicianUser($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        if ($user = currentUser()) {
+            $product_id         = $args['product_id']; //服务
+            $technician_user_id = $args['technician_user_id']; //技师
+            return Order::reserveTechnicianUser($user, $product_id, $technician_user_id);
+        } else {
+            throw new UserException("客户端没有登录。。。");
+        }
+    }
+
     //下单
     public function makeOrder($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {

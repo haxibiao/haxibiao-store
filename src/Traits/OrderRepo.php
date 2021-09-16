@@ -24,14 +24,41 @@ trait OrderRepo
             ->where("status", 1)
             ->first();
         if (empty($product)) {
-            throw new GQLException("该商品已下架！");
+            throw new GQLException("该项目已下架！");
         }
 
-        //支付再后面
         $order = Order::create([
             "user_id" => $user->id,
             "number"  => time(),
             "status"  => Order::UNPAY,
+        ]);
+
+        $order->products()->syncWithoutDetaching([
+            $product_id => [
+                'amount' => 1,
+                'price'  => $product->price,
+            ],
+        ]);
+
+        return $order;
+    }
+
+    public static function reserveTechnicianUser($user, $product_id, $technician_user_id)
+    {
+        //是否下架
+        $product = Product::where("id", $product_id)
+            ->where("status", 1)
+            ->first();
+        if (empty($product)) {
+            throw new GQLException("该项目已下架！");
+        }
+
+        $order = Order::create([
+            "user_id"       => $user->id,
+            "store_id"      => $product->store_id,
+            "technician_id" => $technician_user_id,
+            "number"        => str_random(8) . time(),
+            "status"        => Order::RESERVE,
         ]);
 
         $order->products()->syncWithoutDetaching([
