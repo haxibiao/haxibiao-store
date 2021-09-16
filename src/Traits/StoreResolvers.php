@@ -82,6 +82,13 @@ trait StoreResolvers
         // }
     }
 
+    //获取同城店铺
+    public function resolveCityStores($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        //目前只搞衡阳的，简单的取出全部店铺
+        return Store::query()->publishStatus();
+    }
+
     //获取当前用户位置附近的店铺
     public function resolveNearByStores($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
