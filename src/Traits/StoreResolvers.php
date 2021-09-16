@@ -58,7 +58,7 @@ trait StoreResolvers
     {
         if ($user = currentUser()) {
             $store = Store::with("product")
-                ->where('user_id', $args['user_id'])->where("status", 1)->first();
+                ->where('user_id', $args['user_id'])->publishStatus()->first();
             if (empty($store)) {
                 throw new GQLException("该用户暂没有商铺。。。");
             }
@@ -76,16 +76,26 @@ trait StoreResolvers
             ->when($args['name'] ?? null, function ($qb) use ($args) {
                 return $qb->where('name', 'like', '%' . $args['name'] . '%');
             })
-            ->where("status", 1);
+            ->publishStatus();
         // } else {
         //     throw new GQLException("客户端没有登录。。。");
         // }
     }
 
+    //获取当前用户位置附近的店铺
+    public function resolveNearByStores($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        $store_ids = Location::getNearbyStoreIds(getUser(false));
+        return Store::query()
+            ->publishStatus()
+            ->whereIn('id', $store_ids);
+
+    }
+
     //根据商铺id查询店铺
     public function getStoresById($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $store = Store::with("product")->where('id', $args['id'])->where("status", 1);
+        $store = Store::with("product")->where('id', $args['id'])->publishStatus();
         // dd($store->get());
         return $store->first();
     }

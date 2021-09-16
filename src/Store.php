@@ -17,6 +17,9 @@ class Store extends Model
     use StoreResolvers;
     use StoreRepo;
 
+    const REMOVE_STATUS    = -1; //下架
+    const SUBMITTED_STATUS = 1; //上架
+
     protected $guarded = [
 
     ];
@@ -79,6 +82,10 @@ class Store extends Model
         } else {
             return null;
         }
+    }
 
+    public function scopePublishStatus($query)
+    {
+        return $query->where('status', self::SUBMITTED_STATUS);
     }
 }

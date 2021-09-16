@@ -26,6 +26,7 @@ type Store {
 extend type Query {
   store(user_id: Int! @eq): Store! @field(resolver: "App\\Store@resolveGetStore")
   stores(name: String): [Store!] @paginate(builder: "App\\Store@resolveGetStores", defaultCount: 10)
+  nearByStores:[Store!] @paginate(builder: "App\\Store@resolveNearByStores", defaultCount: 10)
   getStoresById(id: Int! @eq): [Store!] @paginate(defaultCount: 10, builder: "App\\Store@getStoresById")
 }
 
