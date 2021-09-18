@@ -22,6 +22,12 @@ class TechnicianProfile extends Model
         return $this->belongsTo(User::class);
     }
 
+    //所属商铺
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
+
     //用户状态：参考qq、微信状态
     public static function getStatus()
     {

@@ -6,7 +6,6 @@ use App\Role;
 use Haxibiao\Breeze\Nova\Actions\User\UpdateUserStatus;
 use Haxibiao\Breeze\Nova\Filters\User\UserRoleID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
@@ -114,7 +113,6 @@ class User extends Resource
                 ->updateRules('nullable', 'string', 'min:6')->onlyOnForms(),
 
             HasOne::make('技师信息', 'technicianProfile', TechnicianProfile::class, ),
-            BelongsTo::make('所属店铺', 'store', Store::class),
             HasOne::make('用户信息', 'profile', Profile::class),
             BelongsToMany::make('服务项目', 'services', Product::class),
 
