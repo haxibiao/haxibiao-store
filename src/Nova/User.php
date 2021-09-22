@@ -6,9 +6,9 @@ use App\Role;
 use Haxibiao\Breeze\Nova\Actions\User\UpdateUserStatus;
 use Haxibiao\Breeze\Nova\Filters\User\UserRoleID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
@@ -77,7 +77,12 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Gravatar::make()->maxWidth(50),
+            Avatar::make('头像', 'avatar')->disk('cos')->hideFromIndex()
+                ->store(function (Request $request, $model) {
+                    return $model->saveAvatar($request->file('avatar'));
+                })->thumbnail(function () {
+                return $this->avatar_url;
+            }),
 
             Text::make('编号', 'technicianProfile.number')->exceptOnForms(),
 
