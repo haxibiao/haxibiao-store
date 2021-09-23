@@ -12,6 +12,10 @@ class TechnicianRoom extends Model
     //工作中
     const SERVICE_STATUS = 1;
 
+    protected $casts = [
+        'uid' => 'array',
+    ];
+
     protected $guarded = [];
 
     public function getUsersAttribute()
@@ -45,5 +49,18 @@ class TechnicianRoom extends Model
         return TechnicianRoom::query()->when($status, function ($q) use ($status) {
             return $q->where('status', $status);
         });
+    }
+
+    //派钟
+    public function resolveAllotTechnicianRoom($rootValue, $args, $context, $resolveInfo)
+    {
+        $uids           = $args['uids'] ?? null;
+        $id             = $args['id'] ?? null;
+        $technicianRoom = TechnicianRoom::findOrFail($id);
+
+        $uids                 = array_unique(array_merge($uids, $technicianRoom->uids ?? []));
+        $technicianRoom->uids = $uids;
+        $technicianRoom->save();
+        return $technicianRoom;
     }
 }

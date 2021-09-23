@@ -6,6 +6,10 @@ type Product {
   cover: Image
   user: User!
   price: Int
+  """
+  服务/使用时长（分钟）
+  """
+  service_duration: Int
   dimension: String
   dimension2: String
   name: String!

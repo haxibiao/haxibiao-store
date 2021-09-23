@@ -63,7 +63,7 @@ class Product extends Resource
             Text::make('商品价格', 'price'),
             Text::make('上架数量', 'available_amount')->onlyOnIndex(),
             Text::make('商品规格', 'dimension'),
-            Number::make('服务时长', 'service_duration')->min(1)->max(1000)->step(0.01),
+            Number::make('服务时长(分钟)', 'service_duration')->min(1)->max(1000)->step(0.01),
 
             HasMany::make('上传图片', 'image', Image::class),
 
