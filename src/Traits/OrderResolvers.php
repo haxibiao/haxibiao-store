@@ -32,7 +32,7 @@ trait OrderResolvers
     public function resolveReserveTechnicianUser($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         if ($user = currentUser()) {
-            $product_id         = $args['product_id']; //服务
+            $product_id         = $args['product_id'] ?? null; //服务
             $technician_user_id = $args['technician_user_id']; //技师
             $appointment_time   = $args['appointment_time'] ?? null; //预约时间
             return Order::reserveTechnicianUser($user, $product_id, $technician_user_id, $appointment_time);

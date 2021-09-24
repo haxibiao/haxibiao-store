@@ -7,6 +7,7 @@ use App\Image;
 use App\Order;
 use App\PlatformAccount;
 use App\Refund;
+use App\TechnicianProfile;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Helpers\utils\BadWordUtils as UtilsBadWordUtils;
 use Haxibiao\Store\Jobs\OrderAutoExpire;
@@ -46,28 +47,32 @@ trait OrderRepo
     public static function reserveTechnicianUser($user, $product_id, $technician_user_id, $appointment_time = null)
     {
         //是否下架
-        $product = Product::where("id", $product_id)
-            ->where("status", 1)
-            ->first();
-        if (empty($product)) {
-            throw new GQLException("该项目已下架！");
+        // $product = Product::where("id", $product_id)
+        //     ->where("status", 1)
+        //     ->first();
+        // if (empty($product)) {
+        //     throw new GQLException("该项目已下架！");
+        // }
+        $technician_user = TechnicianProfile::where('user_id', $technician_user_id)->first();
+        if (empty($technician_user)) {
+            throw new GQLException("该技师不存在！");
         }
 
         $order = Order::create([
             "user_id"          => $user->id,
-            "store_id"         => $product->store_id,
+            "store_id"         => $technician_user->store_id,
             "technician_id"    => $technician_user_id,
             "appointment_time" => $appointment_time,
             "number"           => str_random(8) . time(),
             "status"           => Order::RESERVE,
         ]);
 
-        $order->products()->syncWithoutDetaching([
-            $product_id => [
-                'amount' => 1,
-                'price'  => $product->price,
-            ],
-        ]);
+        // $order->products()->syncWithoutDetaching([
+        //     $product_id => [
+        //         'amount' => 1,
+        //         'price'  => $product->price,
+        //     ],
+        // ]);
 
         return $order;
     }

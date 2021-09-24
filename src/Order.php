@@ -34,7 +34,7 @@ class Order extends Model
 
     public function technicianUser()
     {
-        return $this->belongsTo(\App\User::class);
+        return $this->belongsTo(\App\User::class, 'technician_id', 'id');
     }
 
     public function products()

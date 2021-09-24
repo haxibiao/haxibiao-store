@@ -11,7 +11,7 @@ extend type Mutation @guard {
   """
   预约技师
   """
-  reserveTechnicianUser(product_id: Int @eq, technician_user_id: Int @eq, appointment_time: String @eq): Order!
+  reserveTechnicianUser(product_id: Int, technician_user_id: Int @eq, appointment_time: String): Order!
     @field(resolver: "App\\Order@resolveReserveTechnicianUser")
   """
   修改订单状态

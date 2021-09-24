@@ -6,7 +6,7 @@ type Order {
   products: [Product]
   refund: Boolean
   user: User
-  technician_user: User
+  technicianUser: User
   platformAccount: [PlatformAccount!]
   status: Int
   end_time: String
