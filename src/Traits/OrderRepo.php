@@ -43,7 +43,7 @@ trait OrderRepo
         return $order;
     }
 
-    public static function reserveTechnicianUser($user, $product_id, $technician_user_id)
+    public static function reserveTechnicianUser($user, $product_id, $technician_user_id, $appointment_time = null)
     {
         //是否下架
         $product = Product::where("id", $product_id)
@@ -54,11 +54,12 @@ trait OrderRepo
         }
 
         $order = Order::create([
-            "user_id"       => $user->id,
-            "store_id"      => $product->store_id,
-            "technician_id" => $technician_user_id,
-            "number"        => str_random(8) . time(),
-            "status"        => Order::RESERVE,
+            "user_id"          => $user->id,
+            "store_id"         => $product->store_id,
+            "technician_id"    => $technician_user_id,
+            "appointment_time" => $appointment_time,
+            "number"           => str_random(8) . time(),
+            "status"           => Order::RESERVE,
         ]);
 
         $order->products()->syncWithoutDetaching([

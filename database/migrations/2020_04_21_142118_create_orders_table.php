@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('store_id')->index()->nullable()->comment('关联店铺');
             $table->unsignedInteger('technician_id')->index()->nullable()->comment('关联技师');
             $table->unsignedInteger('recharge_id')->index()->nullable();
+            $table->timestamp('appointment_time')->nullable()->comment('预约时间');
             $table->String("account")->nullable()->comment("下单时的账号");
             $table->String("password")->nullable()->comment("下单时的密码");
             //用作nova后台展示订单关联账号

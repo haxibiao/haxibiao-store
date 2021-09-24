@@ -15,11 +15,8 @@ class Order extends Model
     use OrderAttrs;
     use OrderRepo;
 
-    protected $fillable = [
-        'user_id',
-        'number',
-        'status',
-        'platformAccount_id',
+    protected $guarded = [
+
     ];
 
     const RESERVE  = -1; //已预约

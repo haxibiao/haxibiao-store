@@ -10,6 +10,7 @@ type Order {
   status: StatusType
   end_time: String
   created_at: DateTime!
+  appointment_time: DateTime!
   updated_at: DateTime!
 }
 

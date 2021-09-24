@@ -34,7 +34,8 @@ trait OrderResolvers
         if ($user = currentUser()) {
             $product_id         = $args['product_id']; //服务
             $technician_user_id = $args['technician_user_id']; //技师
-            return Order::reserveTechnicianUser($user, $product_id, $technician_user_id);
+            $appointment_time   = $args['appointment_time'] ?? null; //预约时间
+            return Order::reserveTechnicianUser($user, $product_id, $technician_user_id, $appointment_time);
         } else {
             throw new UserException("客户端没有登录。。。");
         }

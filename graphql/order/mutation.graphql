@@ -11,12 +11,12 @@ extend type Mutation @guard {
   """
   预约技师
   """
-  reserveTechnicianUser(product_id: Int @eq, technician_user_id: Int @eq): Order!
+  reserveTechnicianUser(product_id: Int @eq, technician_user_id: Int @eq, appointment_time: String @eq): Order!
     @field(resolver: "App\\Order@resolveReserveTechnicianUser")
   """
   修改订单状态
   """
-  updateOrderStatus(order_id: Int @eq,status:StatusType!): Boolean
+  updateOrderStatus(order_id: Int @eq, status: StatusType!): Boolean
     @field(resolver: "App\\Order@resolveUpdateOrderStatus")
   """
   退款
