@@ -6,6 +6,7 @@ type Order {
   products: [Product]
   refund: Boolean
   user: User
+  store: Store
   technicianUser: User
   platformAccount: [PlatformAccount!]
   status: Int

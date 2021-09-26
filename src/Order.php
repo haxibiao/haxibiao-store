@@ -32,6 +32,11 @@ class Order extends Model
         return $this->belongsTo(\App\User::class);
     }
 
+    public function store()
+    {
+        return $this->belongsTo(\App\Store::class);
+    }
+
     public function technicianUser()
     {
         return $this->belongsTo(\App\User::class, 'technician_id', 'id');
