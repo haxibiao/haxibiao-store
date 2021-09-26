@@ -11,8 +11,8 @@ type Order {
   platformAccount: [PlatformAccount!]
   status: Int
   end_time: String
+  appointment_time: String
   created_at: DateTime!
-  appointment_time: DateTime!
   updated_at: DateTime!
 }
 
