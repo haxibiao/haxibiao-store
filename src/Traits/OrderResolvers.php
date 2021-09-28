@@ -4,6 +4,7 @@ namespace Haxibiao\Store\Traits;
 
 use App\Aso;
 use App\Order;
+use App\Store;
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Exceptions\UserException;
@@ -92,18 +93,15 @@ trait OrderResolvers
 
     public function resolveOrders($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $store_id = $args['store_id'] ?? null;
-        $user_id  = $args['user_id'] ?? null;
-        $status   = $args['status'] ?? null;
+        $status    = $args['status'] ?? null;
+        $user      = getUser();
+        $store_ids = Store::where('user_id', $user->id)->pluck('id')->toArray();
         return Order::query()
-            ->when($store_id, function ($qb) use ($store_id) {
-                return $qb->where('store_id', $store_id);
-            })
-            ->when($user_id, function ($qb) use ($user_id) {
-                return $qb->where('user_id', $user_id);
+            ->when(count($store_ids), function ($qb) use ($store_ids) {
+                return $qb->whereIn('store_id', $store_ids);
             })
             ->when($status, function ($qb) use ($status) {
                 return $qb->where('status', $status);
-            });
+            })->orderByDesc('created_at');
     }
 }

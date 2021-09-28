@@ -19,7 +19,7 @@ type Order {
 extend type Query {
   order(id: Int! @eq): Order @find
   myOrders: [Order!] @paginate(defaultCount: 10, builder: "App\\Order@getMyOrders")
-  orders(store_id: Int, user_id: Int, status: StatusType): [Order!]
+  orders(status: StatusType): [Order!]
     @paginate(defaultCount: 10, builder: "App\\Order@resolveOrders")
 }
 
