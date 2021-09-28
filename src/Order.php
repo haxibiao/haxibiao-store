@@ -19,12 +19,17 @@ class Order extends Model
 
     ];
 
-    const RESERVE  = -1; //已预约
-    const UNPAY    = 0; //未支付|已接单
+    //约钟
+    const RESERVE = -1; //已预约
+    const REJECT  = -2; //已拒绝
+    const CANCEL  = -3; //已取消
+    const ACCEPT  = 4; //已接受
+
+    //租号
+    const UNPAY    = 0; //未支付
     const PAID     = 1; //已支付
     const RECEIVED = 2; //已到货
     const EXPIRE   = 3; //已过期
-    const CANCEL   = 4; //已取消
 
     const REFUND_TIME = 600; //订单可退款时间（s）
     public function user()

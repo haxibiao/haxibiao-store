@@ -89,4 +89,21 @@ trait OrderResolvers
             throw new GQLException("客户端没有登录。。。");
         }
     }
+
+    public function resolveOrders($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        $store_id = $args['store_id'] ?? null;
+        $user_id  = $args['user_id'] ?? null;
+        $status   = $args['status'] ?? null;
+        return Order::query()
+            ->when($store_id, function ($qb) use ($store_id) {
+                return $qb->where('store_id', $store_id);
+            })
+            ->when($user_id, function ($qb) use ($user_id) {
+                return $qb->where('user_id', $user_id);
+            })
+            ->when($status, function ($qb) use ($status) {
+                return $qb->where('status', $status);
+            });
+    }
 }

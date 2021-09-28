@@ -19,13 +19,17 @@ type Order {
 extend type Query {
   order(id: Int! @eq): Order @find
   myOrders: [Order!] @paginate(defaultCount: 10, builder: "App\\Order@getMyOrders")
+  orders(store_id: Int, user_id: Int, status: StatusType): [Order!]
+    @paginate(defaultCount: 10, builder: "App\\Order@resolveOrders")
 }
 
 enum StatusType {
   RESERVE @enum(value: "-1")
   UNPAY @enum(value: "0")
+  ACCEPT @enum(value: "4")
   PAID @enum(value: "1")
+  REJECT @enum(value: "-2")
   RECEIVED @enum(value: "2")
   EXPIRE @enum(value: "3")
-  CANCEL @enum(value: "4")
+  CANCEL @enum(value: "-3")
 }
