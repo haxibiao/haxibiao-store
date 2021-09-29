@@ -32,6 +32,13 @@ class Order extends Model
     const EXPIRE   = 3; //已过期
 
     const REFUND_TIME = 600; //订单可退款时间（s）
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::observe(Observers\OrderObserver::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(\App\User::class);
