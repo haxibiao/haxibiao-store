@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Store\Observers;
 
+use Haxibiao\Breeze\Events\OrderBroadcast;
 use Haxibiao\Breeze\Notifications\OrderNotification;
 use Haxibiao\Store\Order;
 
@@ -14,6 +15,7 @@ class OrderObserver
         if ($store = $order->store) {
             if ($user = $store->user) {
                 $user->notify(new OrderNotification($order));
+                event(new OrderBroadcast($order, $user->id));
             }
         }
     }
@@ -26,17 +28,24 @@ class OrderObserver
      */
     public function updated(Order $order)
     {
-        if ($order->status = Order::REJECT) {
-
-            //1.拒绝接单 通知用户
-            $order->user->notify(new OrderNotification($order));
-        } else if ($order->status = Order::CANCEL) {
-            //2.取消订单 通知商家
-            $order->store->user->notify(new OrderNotification($order));
-        } else if ($order->status = Order::ACCEPT) {
-            //3.接单 通知技师和用户
-            $order->user->notify(new OrderNotification($order));
-            $order->technicianUser->notify(new OrderNotification($order));
+        //状态发生更新
+        if (!is_null($order->getChanges()['status'] ?? null)) {
+            if ($order->status == Order::REJECT) {
+                //1.拒绝接单 通知用户
+                $user = $order->user;
+                $user->notify(new OrderNotification($order));
+                event(new OrderBroadcast($order, $user->id));
+            } else if ($order->status == Order::CANCEL) {
+                //2.取消订单 通知商家
+                $order->store->user->notify(new OrderNotification($order));
+                event(new OrderBroadcast($order, $order->store->user->id));
+            } else if ($order->status == Order::ACCEPT) {
+                //3.接单 通知技师和用户
+                $order->user->notify(new OrderNotification($order));
+                $order->technicianUser->notify(new OrderNotification($order));
+                event(new OrderBroadcast($order, $$order->user->id));
+                event(new OrderBroadcast($order, $$order->technicianUser->id));
+            }
         }
     }
 
