@@ -43,8 +43,8 @@ class OrderObserver
                 //3.接单 通知技师和用户
                 $order->user->notify(new OrderNotification($order));
                 $order->technicianUser->notify(new OrderNotification($order));
-                event(new OrderBroadcast($order, $$order->user->id));
-                event(new OrderBroadcast($order, $$order->technicianUser->id));
+                event(new OrderBroadcast($order, $order->user->id));
+                event(new OrderBroadcast($order, $order->technicianUser->id));
             }
         }
     }
