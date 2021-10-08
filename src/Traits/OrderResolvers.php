@@ -18,7 +18,8 @@ trait OrderResolvers
         if ($user = currentUser()) {
             $order_id = $args['order_id']; //订单id
             $status   = $args['status']; //状态
-            if (!in_array($status, [Order::UNPAY, Order::CANCEL])) {
+
+            if (!in_array($status, [Order::RESERVE, Order::REJECT, Order::CANCEL, Order::ACCEPT])) {
                 throw new UserException("暂不支持其他操作");
             }
 
