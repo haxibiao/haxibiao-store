@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Store;
 
+use App\TechnicianRoom as AppTechnicianRoom;
 use Haxibiao\Breeze\Model;
 use Haxibiao\Breeze\User;
 
@@ -17,6 +18,11 @@ class TechnicianRoom extends Model
     ];
 
     protected $guarded = [];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 
     public function getUsersAttribute()
     {
@@ -51,15 +57,35 @@ class TechnicianRoom extends Model
         });
     }
 
+    //根据状态查询房间列表
+    public function resolveOrders($rootValue, $args, $context, $resolveInfo)
+    {
+        $status = $args['status'] ?? null;
+        return $rootValue->orders()->when($status, function ($q) use ($status) {
+            return $q->where('status', $status);
+        })->orderByDesc('id');
+    }
+
     //派钟
     public function resolveAllotTechnicianRoom($rootValue, $args, $context, $resolveInfo)
     {
-        $uids           = $args['uids'] ?? null;
-        $id             = $args['id'] ?? null;
-        $technicianRoom = TechnicianRoom::findOrFail($id);
+        $room_id    = $args['room_id'] ?? null;
+        $product_id = $args['product_id'] ?? null;
+        $order_id   = $args['order_id'] ?? null;
 
-        $uids                 = array_unique(array_merge($uids, $technicianRoom->uids ?? []));
-        $technicianRoom->uids = $uids;
+        //关联订单信息
+        $order                     = Order::findOrFail($order_id);
+        $order->product_id         = $product_id;
+        $order->technician_room_id = $room_id;
+        $order->status             = Order::WORKING;
+        $order->save();
+
+        //保存房间信息
+        $technicianRoom         = TechnicianRoom::findOrFail($room_id);
+        $technician_id          = $order->technician_id;
+        $uids                   = array_unique(array_merge([$technician_id], $technicianRoom->uids ?? []));
+        $technicianRoom->uids   = $uids;
+        $technicianRoom->status = AppTechnicianRoom::SERVICE_STATUS;
         $technicianRoom->save();
         return $technicianRoom;
     }

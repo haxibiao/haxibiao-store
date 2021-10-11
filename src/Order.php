@@ -24,6 +24,8 @@ class Order extends Model
     const REJECT  = -2; //已拒绝
     const CANCEL  = -3; //已取消
     const ACCEPT  = 4; //已接受
+    const WORKING = 5; //进行中
+    const OVER    = 6; //已结束
 
     //租号
     const UNPAY    = 0; //未支付
@@ -42,6 +44,16 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(\App\User::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(\App\Product::class);
+    }
+
+    public function technicianRoom()
+    {
+        return $this->belongsTo(\App\TechnicianRoom::class);
     }
 
     public function store()

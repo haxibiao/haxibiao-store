@@ -2,10 +2,11 @@ extend type Mutation {
   """
   派钟（开始计时）
   """
-  allotTechnicianRoom(user_id:Int @eq,id:Int @eq): TechnicianRoom @field(resolver: "App\\TechnicianRoom@resolveAllotTechnicianRoom")
+  allotTechnicianRoom(room_id: Int @eq, product_id: Int @eq, order_id: Int @eq): TechnicianRoom
+    @field(resolver: "App\\TechnicianRoom@resolveAllotTechnicianRoom")
 }
 
 enum TechnicianStatus {
-  FREE_STATUS @enum(value:0)
-  SERVICE_STATUS @enum(value:1)
+  FREE_STATUS @enum(value: 0)
+  SERVICE_STATUS @enum(value: 1)
 }

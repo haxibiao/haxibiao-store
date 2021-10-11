@@ -18,6 +18,8 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('user_id')->index();
             $table->unsignedInteger('store_id')->index()->nullable()->comment('关联店铺');
             $table->unsignedInteger('technician_id')->index()->nullable()->comment('关联技师');
+            $table->unsignedInteger('product_id')->index()->nullable()->comment('关联项目');
+            $table->unsignedInteger('technician_room_id')->index()->nullable()->comment('关联房间');
             $table->unsignedInteger('recharge_id')->index()->nullable();
             $table->timestamp('appointment_time')->nullable()->comment('预约时间');
             $table->String("account")->nullable()->comment("下单时的账号");

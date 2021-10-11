@@ -19,14 +19,15 @@ type Order {
 extend type Query {
   order(id: Int! @eq): Order @find
   myOrders: [Order!] @paginate(defaultCount: 10, builder: "App\\Order@getMyOrders")
-  orders(status: StatusType): [Order!]
-    @paginate(defaultCount: 10, builder: "App\\Order@resolveOrders")
+  orders(status: OrderStatus): [Order!] @paginate(defaultCount: 10, builder: "App\\Order@resolveOrders")
 }
 
-enum StatusType {
+enum OrderStatus {
   RESERVE @enum(value: "-1")
   UNPAY @enum(value: "0")
   ACCEPT @enum(value: "4")
+  WORKING @enum(value: "5")
+  OVER @enum(value: "6")
   PAID @enum(value: "1")
   REJECT @enum(value: "-2")
   RECEIVED @enum(value: "2")
