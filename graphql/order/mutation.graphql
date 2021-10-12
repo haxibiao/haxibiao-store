@@ -16,7 +16,7 @@ extend type Mutation @guard {
   """
   修改订单状态
   """
-  updateOrderStatus(order_id: Int @eq, status: StatusType!): Boolean
+  updateOrderStatus(order_id: Int @eq, status: OrderStatus!): Boolean
     @field(resolver: "App\\Order@resolveUpdateOrderStatus")
   """
   退款
