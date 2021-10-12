@@ -2,7 +2,7 @@ extend type Mutation {
   """
   派钟
   """
-  allotTechnicianRoom(room_id: Int @eq, product_id: Int @eq, order_id: Int @eq): TechnicianRoom
+  allotTechnicianRoom(room_id: Int @eq, product_id: Int @eq, technician_id: Int @eq, order_id: Int): TechnicianRoom
     @field(resolver: "App\\TechnicianRoom@resolveAllotTechnicianRoom")
   """
   上钟

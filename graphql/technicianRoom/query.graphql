@@ -8,7 +8,7 @@ type TechnicianRoom {
   技师
   """
   technicianUsers: [User]
-  orders(status: OrderStatus): [Order] @paginate(defaultCount: 5, builder: "App\\Tag@resolveOrders")
+  orders(status: OrderStatus): [Order] @paginate(defaultCount: 5, builder: "App\\TechnicianRoom@resolveOrders")
   status: Int
   created_at: DateTime!
   updated_at: DateTime!
