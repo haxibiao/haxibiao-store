@@ -3,6 +3,7 @@
 namespace Haxibiao\Store;
 
 use App\TechnicianRoom as AppTechnicianRoom;
+use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Model;
 use Haxibiao\Breeze\User;
 
@@ -30,6 +31,11 @@ class TechnicianRoom extends Model
             return User::whereIn('id', $this->uids)->get();
         }
         return null;
+    }
+
+    public function getUidsAttribute($value)
+    {
+        return json_decode($value);
     }
 
     public function getTechnicianUsersAttribute()
@@ -74,14 +80,16 @@ class TechnicianRoom extends Model
         $order_id   = $args['order_id'] ?? null;
 
         //关联订单信息
-        $order                     = Order::findOrFail($order_id);
+        $order = Order::find($order_id);
+        throw_if(empty($order), GQLException::class, "没有改订单");
         $order->product_id         = $product_id;
         $order->technician_room_id = $room_id;
         $order->status             = Order::WORKING;
         $order->save();
 
         //保存房间信息
-        $technicianRoom         = TechnicianRoom::findOrFail($room_id);
+        $technicianRoom = TechnicianRoom::find($room_id);
+        throw_if(empty($order), GQLException::class, "没有改房间");
         $technician_id          = $order->technician_id;
         $uids                   = array_unique(array_merge([$technician_id], $technicianRoom->uids ?? []));
         $technicianRoom->uids   = $uids;
