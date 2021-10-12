@@ -19,7 +19,7 @@ trait OrderResolvers
             $order_id = $args['order_id']; //订单id
             $status   = $args['status']; //状态
 
-            if (!in_array($status, [Order::RESERVE, Order::REJECT, Order::CANCEL, Order::ACCEPT])) {
+            if (!in_array($status, [Order::RESERVE, Order::REJECT, Order::CANCEL, Order::ACCEPT, Order::WORKING, Order::OVER])) {
                 throw new UserException("暂不支持其他操作");
             }
 

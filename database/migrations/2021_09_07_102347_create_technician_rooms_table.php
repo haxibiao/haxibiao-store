@@ -21,6 +21,7 @@ class CreateTechnicianRoomsTable extends Migration
             $table->json('uids')->nullable()->comment('客户们的id');
             $table->json('tids')->nullable()->comment('技师们的id');
             $table->integer('status')->default(0)->comment('0空闲中|1忙碌中');
+            $table->integer('store_id')->index()->comment('关联商铺id');
             $table->timestamps();
         });
     }

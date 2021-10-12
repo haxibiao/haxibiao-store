@@ -29,6 +29,8 @@ class CreateProductsTable extends Migration
             $table->Integer('video_id')->nullable()->index()->comment('视频id');
             $table->string('address')->nullable()->comment('位置地名');
             $table->unsignedInteger('valid_day')->nullable();
+            $table->double('service_duration')->nullable()->comment('服务时长');
+
             $table->string('phone')->nullable();
 
             //用于出售任何平台的账号商品

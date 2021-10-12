@@ -6,6 +6,7 @@ use App\TechnicianRoom as AppTechnicianRoom;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Model;
 use Haxibiao\Breeze\User;
+use Haxibiao\Store\Notifications\OffWorkTechnicianRoom;
 
 class TechnicianRoom extends Model
 {
@@ -57,13 +58,17 @@ class TechnicianRoom extends Model
     //根据状态查询房间列表
     public function resolveTehnicianRooms($rootValue, $args, $context, $resolveInfo)
     {
-        $status = $args['status'] ?? null;
+        $status   = $args['status'] ?? null;
+        $store_id = $args['store_id'] ?? null;
+        $user     = getUser();
         return TechnicianRoom::query()->when($status, function ($q) use ($status) {
             return $q->where('status', $status);
+        })->when($store_id, function ($q) use ($store_id) {
+            return $q->where('store_id', $store_id);
         });
     }
 
-    //根据状态查询房间列表
+    //根据状态查询订单列表
     public function resolveOrders($rootValue, $args, $context, $resolveInfo)
     {
         $status = $args['status'] ?? null;
@@ -81,7 +86,7 @@ class TechnicianRoom extends Model
 
         //关联订单信息
         $order = Order::find($order_id);
-        throw_if(empty($order), GQLException::class, "没有改订单");
+        throw_if(empty($order), GQLException::class, "没有该订单");
         $order->product_id         = $product_id;
         $order->technician_room_id = $room_id;
         $order->status             = Order::WORKING;
@@ -96,5 +101,25 @@ class TechnicianRoom extends Model
         $technicianRoom->status = AppTechnicianRoom::SERVICE_STATUS;
         $technicianRoom->save();
         return $technicianRoom;
+    }
+
+    //开始上钟，计时开始
+    public function resolveAtWorkTechnicianRoom($rootValue, $args, $context, $resolveInfo)
+    {
+        $user  = getUser();
+        $order = Order::find($args['order_id']);
+        throw_if(empty($order), GQLException::class, "没有该订单");
+        $technicianUser = $order->user;
+        throw_if(empty($technicianUser) || $user->id != $technicianUser->id, GQLException::class, "订单错误");
+
+        //保存上钟时间
+        $order->at_work_time = now();
+        $order->save();
+
+        //定时通知下钟
+        $product = $order->product;
+        $time    = $product->service_duration;
+        $technicianUser->notifiy(new OffWorkTechnicianRoom($technicianUser, $order))->delay($time * 60);
+        return $order;
     }
 }

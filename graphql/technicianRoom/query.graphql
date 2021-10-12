@@ -8,8 +8,7 @@ type TechnicianRoom {
   技师
   """
   technicianUsers: [User]
-  orders(status:OrderStatus): [Order]
-        @paginate(defaultCount: 5, builder: "App\\Tag@resolveOrders"
+  orders(status: OrderStatus): [Order] @paginate(defaultCount: 5, builder: "App\\Tag@resolveOrders")
   status: Int
   created_at: DateTime!
   updated_at: DateTime!
@@ -19,7 +18,7 @@ extend type Query {
   """
   查看房间列表(支持状态搜索)
   """
-  technicianRooms(status: TechnicianStatus): [TechnicianRoom!]
+  technicianRooms(status: TechnicianStatus, store_id: Int): [TechnicianRoom!]
     @paginate(defaultCount: 10, builder: "App\\TechnicianRoom@resolveTehnicianRooms")
 }
 

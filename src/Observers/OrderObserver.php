@@ -5,6 +5,8 @@ namespace Haxibiao\Store\Observers;
 use Haxibiao\Breeze\Events\OrderBroadcast;
 use Haxibiao\Breeze\Notifications\OrderNotification;
 use Haxibiao\Store\Order;
+use Haxibiao\Store\TechnicianProfile;
+use Haxibiao\Store\TechnicianRoom;
 
 class OrderObserver
 {
@@ -45,6 +47,25 @@ class OrderObserver
                 $order->technicianUser->notify(new OrderNotification($order));
                 event(new OrderBroadcast($order, $order->user->id));
                 event(new OrderBroadcast($order, $order->technicianUser->id));
+            } else if ($order->status == Order::OVER) {
+                //4.完成订单 修改技师状态
+                $technicianUser    = $order->technicianUser;
+                $technicianProfile = $technicianUser->technicianProfile;
+                //技师状态修改为空闲
+                if ($technicianProfile && $technicianProfile->status != TechnicianProfile::FREE_STATUS) {
+                    $technicianProfile->update(['status' => TechnicianProfile::FREE_STATUS]);
+                }
+                //房间状态修改
+                $room = $order->technicianRoom;
+                if ($room && count($room->uids)) {
+                    //技师移出
+                    $room->uids = array_diff($room->uids, [$technicianUser->id]);
+                    //状态修改
+                    if (count($room->uids) == 0) {
+                        $room->status = TechnicianRoom::FREE_STATUS;
+                    }
+                    $room->save();
+                }
             }
         }
     }
