@@ -105,4 +105,15 @@ trait OrderResolvers
                 return $qb->where('status', $status);
             })->orderByDesc('created_at');
     }
+
+    //查询正在进行中的订单
+    public function resolveWorkingOrder($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        $user = getUser();
+        return Order::query()
+            ->where('technician_id', $user->id)
+            ->where('status', Order::WORKING)
+            ->orderByDesc('created_at')->first();
+    }
+
 }

@@ -21,6 +21,10 @@ extend type Query {
   order(id: Int! @eq): Order @find
   myOrders: [Order!] @paginate(defaultCount: 10, builder: "App\\Order@getMyOrders")
   orders(status: OrderStatus): [Order!] @paginate(defaultCount: 10, builder: "App\\Order@resolveOrders")
+  """
+  技师正在进行中的订单
+  """
+  workingOrder: Order @field(resolver: "App\\Order@resolveWorkingOrder")
 }
 
 enum OrderStatus {
