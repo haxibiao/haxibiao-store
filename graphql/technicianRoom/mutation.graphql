@@ -7,7 +7,7 @@ extend type Mutation {
   """
   上钟
   """
-  atWorkTechnicianRoom(order_id: Int @eq): TechnicianRoom
+  atWorkTechnicianRoom(order_id: Int @eq): Order
     @field(resolver: "App\\TechnicianRoom@resolveAtWorkTechnicianRoom")
 }
 
