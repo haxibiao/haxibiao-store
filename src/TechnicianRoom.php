@@ -61,7 +61,6 @@ class TechnicianRoom extends Model
     {
         $status   = $args['status'] ?? null;
         $store_id = $args['store_id'] ?? null;
-        $user     = getUser();
         return TechnicianRoom::query()->when($status, function ($q) use ($status) {
             return $q->where('status', $status);
         })->when($store_id, function ($q) use ($store_id) {
