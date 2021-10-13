@@ -83,6 +83,16 @@ class TechnicianRoom extends Model
         $product_id    = $args['product_id'] ?? null;
         $order_id      = $args['order_id'] ?? null;
         $technician_id = $args['technician_id'] ?? null;
+        //保存房间信息
+        $technicianRoom = TechnicianRoom::find($room_id);
+        throw_if(empty($order), GQLException::class, "没有该房间");
+        $technician_user = User::find($technician_id);
+        throw_if(empty($technician_user), GQLException::class, "没有该技师");
+        if ($technician_user->status == TechnicianProfile::WORK_STATUS) {
+            throw new GQLException("该技师正在服务中，换一个技师吧！");
+        } else if ($technician_user->status == TechnicianProfile::NOT_WORK_STATUS) {
+            throw new GQLException("该技师休息中，换一个技师吧！");
+        }
 
         //关联订单信息
         if ($order_id) {
@@ -95,10 +105,6 @@ class TechnicianRoom extends Model
             $order->save();
         } else {
             //没有预约的话当场创建订单
-            $technician_user = User::find($technician_id);
-            throw_if(empty($technician_user), GQLException::class, "没有该技师");
-            throw_if($technician_user->technicianProfile->status != TechnicianProfile::FREE_STATUS, GQLException::class, "该技师目前不在空闲中");
-
             $order = Order::create([
                 "user_id"          => 1, //匿名用户
                 "store_id" => $technician_user->store_id,
@@ -109,13 +115,14 @@ class TechnicianRoom extends Model
             ]);
         }
 
-        //保存房间信息
-        $technicianRoom = TechnicianRoom::find($room_id);
-        throw_if(empty($order), GQLException::class, "没有该房间");
+        //修改房间信息
         $uids                   = array_unique(array_merge([$technician_id], $technicianRoom->uids ?? []));
         $technicianRoom->uids   = $uids;
         $technicianRoom->status = AppTechnicianRoom::SERVICE_STATUS;
         $technicianRoom->save();
+
+        //修改技师状态
+        $technician_user->technicianProfile->update(['status' => TechnicianProfile::WORK_STATUS]);
         return $technicianRoom;
     }
 
