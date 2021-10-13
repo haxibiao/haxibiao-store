@@ -85,7 +85,7 @@ class TechnicianRoom extends Model
         $technician_id = $args['technician_id'] ?? null;
         //保存房间信息
         $technicianRoom = TechnicianRoom::find($room_id);
-        throw_if(empty($order), GQLException::class, "没有该房间");
+        throw_if(empty($technicianRoom), GQLException::class, "没有该房间");
         $technician_user = User::find($technician_id);
         throw_if(empty($technician_user), GQLException::class, "没有该技师");
         if ($technician_user->status == TechnicianProfile::WORK_STATUS) {
