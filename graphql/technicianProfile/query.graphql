@@ -14,12 +14,12 @@ extend type Query {
   """
   查看技师列表(支持状态搜索)
   """
-  technicianUsers(store_id: Int!, status: TechnicianStatus): [User!]
+  technicianUsers(store_id: Int!, status: TechnicianProfileStatus): [User!]
     @paginate(defaultCount: 10, builder: "App\\User@resolveTehnicianUsers")
 }
 
-enum TechnicianStatus {
+enum TechnicianProfileStatus {
   NOT_WORK_STATUS @enum(value: 0)
-  FREE_STATUS @enum(value: 1)
-  WORK_STATUS @enum(value: 2)
+  FREE_STATUS @enum(value: 2)
+  WORK_STATUS @enum(value: 1)
 }

@@ -8,6 +8,7 @@ use App\Store;
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Exceptions\UserException;
+use Haxibiao\Breeze\User;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 trait OrderResolvers
@@ -109,7 +110,7 @@ trait OrderResolvers
     //查询正在进行中的订单
     public function resolveWorkingOrder($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $user = getUser();
+        $user = User::findOrFail($args['user_id']);
         return Order::query()
             ->where('technician_id', $user->id)
             ->where('status', Order::WORKING)

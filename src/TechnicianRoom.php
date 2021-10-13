@@ -117,7 +117,7 @@ class TechnicianRoom extends Model
         }
 
         //修改房间信息
-        $uids                   = array_unique(array_merge([$technician_id], $technicianRoom->uids ?? []));
+        $uids                   = array_values(array_unique(array_merge([$technician_id], $technicianRoom->uids ?? [])));
         $technicianRoom->uids   = $uids;
         $technicianRoom->status = AppTechnicianRoom::SERVICE_STATUS;
         $technicianRoom->save();

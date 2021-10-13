@@ -10,8 +10,3 @@ extend type Mutation {
   atWorkTechnicianRoom(order_id: Int @eq): Order
     @field(resolver: "App\\TechnicianRoom@resolveAtWorkTechnicianRoom")
 }
-
-enum TechnicianStatus {
-  FREE_STATUS @enum(value: 0)
-  SERVICE_STATUS @enum(value: 1)
-}

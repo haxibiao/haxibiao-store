@@ -24,7 +24,7 @@ extend type Query {
   """
   技师正在进行中的订单
   """
-  workingOrder: Order @field(resolver: "App\\Order@resolveWorkingOrder")
+  workingOrder(user_id:Int!): Order @field(resolver: "App\\Order@resolveWorkingOrder")
 }
 
 enum OrderStatus {
