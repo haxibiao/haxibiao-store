@@ -88,9 +88,10 @@ class TechnicianRoom extends Model
         throw_if(empty($technicianRoom), GQLException::class, "没有该房间");
         $technician_user = User::find($technician_id);
         throw_if(empty($technician_user), GQLException::class, "没有该技师");
-        if ($technician_user->status == TechnicianProfile::WORK_STATUS) {
+        $technicianProfile = $technician_user->technicianProfile;
+        if ($technicianProfile->status == TechnicianProfile::WORK_STATUS) {
             throw new GQLException("该技师正在服务中，换一个技师吧！");
-        } else if ($technician_user->status == TechnicianProfile::NOT_WORK_STATUS) {
+        } else if ($technicianProfile->status == TechnicianProfile::NOT_WORK_STATUS) {
             throw new GQLException("该技师休息中，换一个技师吧！");
         }
 
@@ -122,7 +123,7 @@ class TechnicianRoom extends Model
         $technicianRoom->save();
 
         //修改技师状态
-        $technician_user->technicianProfile->update(['status' => TechnicianProfile::WORK_STATUS]);
+        $technicianProfile->update(['status' => TechnicianProfile::WORK_STATUS]);
         return $technicianRoom;
     }
 
