@@ -95,32 +95,34 @@ class TechnicianRoom extends Model
             throw new GQLException("该技师休息中，换一个技师吧！");
         }
 
+        //修改房间信息
+        $uids                   = array_values(array_unique(array_merge([$technician_id], $technicianRoom->uids ?? [])));
+        $technicianRoom->uids   = $uids;
+        $technicianRoom->status = AppTechnicianRoom::SERVICE_STATUS;
+        $technicianRoom->save();
+
         //关联订单信息
         if ($order_id) {
             $order = Order::find($order_id);
             throw_if(empty($order), GQLException::class, "没有该订单");
             $order->product_id         = $product_id;
             $order->technician_id      = $technician_id;
-            $order->technician_room_id = $room_id;
+            $order->technician_room_id = $technicianRoom->id;
             $order->status             = Order::ACCEPT;
             $order->save();
         } else {
             //没有预约的话当场创建订单
             $order = Order::create([
-                "user_id"          => 1, //匿名用户
-                "store_id" => $technician_user->store_id,
-                "technician_id"    => $technician_id,
-                "appointment_time" => now(),
-                "number"           => str_random(8) . time(),
-                "status"           => Order::ACCEPT,
+                "user_id"            => 1, //匿名用户
+                "store_id" => $technicianProfile->store_id,
+                'product_id'         => $product_id,
+                "technician_id"      => $technician_id,
+                "technician_room_id" => $technicianRoom->id,
+                "appointment_time"   => now(),
+                "number"             => str_random(8) . time(),
+                "status"             => Order::ACCEPT,
             ]);
         }
-
-        //修改房间信息
-        $uids                   = array_values(array_unique(array_merge([$technician_id], $technicianRoom->uids ?? [])));
-        $technicianRoom->uids   = $uids;
-        $technicianRoom->status = AppTechnicianRoom::SERVICE_STATUS;
-        $technicianRoom->save();
 
         //修改技师状态
         $technicianProfile->update(['status' => TechnicianProfile::WORK_STATUS]);
