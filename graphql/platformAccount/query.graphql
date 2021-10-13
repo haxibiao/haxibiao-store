@@ -26,11 +26,6 @@ extend type Query {
   ): PlatformAccount! @field(resolver: "App\\PlatformAccount@getPrice")
 }
 
-enum OrderStatus {
-  UNUSE @enum(value: "0")
-  INUSE @enum(value: "1")
-  EXPIRE @enum(value: "2")
-}
 enum DimensionType {
   DIMENSION @enum(value: "dimension")
   DIMENSION2 @enum(value: "dimension2")
