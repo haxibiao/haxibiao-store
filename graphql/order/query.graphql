@@ -4,6 +4,8 @@ type Order {
   account: String
   password: String
   products: [Product]
+  product: Product
+  technicianRoom: TechnicianRoom
   refund: Boolean
   user: User
   store: Store
@@ -24,7 +26,7 @@ extend type Query {
   """
   技师正在进行中的订单
   """
-  workingOrder(user_id:Int!): Order @field(resolver: "App\\Order@resolveWorkingOrder")
+  workingOrder(user_id: Int!): Order @field(resolver: "App\\Order@resolveWorkingOrder")
 }
 
 enum OrderStatus {
