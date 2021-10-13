@@ -113,7 +113,7 @@ trait OrderResolvers
         $user = User::findOrFail($args['user_id']);
         return Order::query()
             ->where('technician_id', $user->id)
-            ->where('status', Order::WORKING)
+            ->where('status', Order::ALLOT)
             ->orderByDesc('created_at')->first();
     }
 
