@@ -108,7 +108,7 @@ class TechnicianRoom extends Model
             $order->product_id         = $product_id;
             $order->technician_id      = $technician_id;
             $order->technician_room_id = $technicianRoom->id;
-            $order->status             = Order::ACCEPT;
+            $order->status             = Order::ALLOT;
             $order->save();
         } else {
             //没有预约的话当场创建订单
@@ -120,7 +120,7 @@ class TechnicianRoom extends Model
                 "technician_room_id" => $technicianRoom->id,
                 "appointment_time"   => now(),
                 "number"             => str_random(8) . time(),
-                "status"             => Order::ACCEPT,
+                "status"             => Order::ALLOT,
             ]);
         }
 

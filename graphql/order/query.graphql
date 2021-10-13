@@ -35,6 +35,7 @@ enum OrderStatus {
   ACCEPT @enum(value: "4")
   WORKING @enum(value: "5")
   OVER @enum(value: "6")
+  ALLOT @enum(value: "7")
   PAID @enum(value: "1")
   REJECT @enum(value: "-2")
   RECEIVED @enum(value: "2")

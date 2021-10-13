@@ -26,6 +26,7 @@ class Order extends Model
     const ACCEPT  = 4; //已接受
     const WORKING = 5; //进行中
     const OVER    = 6; //已结束
+    const ALLOT   = 7; //已派钟
 
     //租号
     const UNPAY    = 0; //未支付
