@@ -117,7 +117,7 @@ class TechnicianRoom extends Model
             //没有预约的话当场创建订单
             $order = Order::create([
                 "user_id"            => 1, //匿名用户
-                "store_id" => $technicianProfile->store_id,
+                "store_id"           => $technicianProfile->store_id,
                 'product_id'         => $product_id,
                 "technician_id"      => $technician_id,
                 "technician_room_id" => $technicianRoom->id,
@@ -137,7 +137,6 @@ class TechnicianRoom extends Model
     {
         $order = Order::find($args['order_id']);
         throw_if(empty($order), GQLException::class, "没有该订单");
-        throw_if(empty($technicianUser), GQLException::class, "订单错误");
 
         //保存上钟时间
         if ($order->status != Order::WORKING) {
