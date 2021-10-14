@@ -59,11 +59,12 @@ class OrderObserver
                 $room = $order->technicianRoom;
                 if ($room && count($room->uids)) {
                     //技师移出
-                    $room->uids = array_values(array_diff($room->uids, [$technicianUser->id]));
+                    $uids = array_values(array_diff($room->uids, [$technicianUser->id]));
                     //状态修改
-                    if (count($room->uids) == 0) {
+                    if (count($uids) == 0) {
                         $room->status = TechnicianRoom::FREE_STATUS;
                     }
+                    $room->uids = $uids;
                     $room->save();
                 }
             }
