@@ -39,7 +39,7 @@ class Store extends Model
         return $this->hasMany(\App\Product::class);
     }
 
-    public function image()
+    public function images()
     {
         return $this->hasMany(\App\Image::class);
     }
