@@ -8,6 +8,7 @@ use App\Order;
 use App\PlatformAccount;
 use App\Refund;
 use App\TechnicianProfile;
+use App\TechnicianRoom;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Helpers\utils\BadWordUtils as UtilsBadWordUtils;
 use Haxibiao\Store\Jobs\OrderAutoExpire;
@@ -135,7 +136,7 @@ trait OrderRepo
             DB::commit();
 
             return $order;
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             DB::rollback();
             Log::error($e);
             throw new GQLException("未知异常，订单取消");
@@ -235,5 +236,28 @@ trait OrderRepo
         $refund->save();
 
         return true;
+    }
+
+    public static function overTechnicianRoomOrder($order)
+    {
+        $technicianUser    = $order->technicianUser;
+        $technicianProfile = $technicianUser->technicianProfile;
+        //技师状态修改为空闲
+        if ($technicianProfile && $technicianProfile->status != TechnicianProfile::FREE_STATUS) {
+            $technicianProfile->update(['status' => TechnicianProfile::FREE_STATUS]);
+        }
+        //房间状态修改
+        $room = $order->technicianRoom;
+        if ($room && count($room->uids)) {
+            //技师移出
+            $uids = array_values(array_diff($room->uids, [$technicianUser->id]));
+            //状态修改
+            if (count($uids) == 0) {
+                $room->status = TechnicianRoom::FREE_STATUS;
+            }
+            $room->uids = $uids;
+            $room->save();
+        }
+
     }
 }
