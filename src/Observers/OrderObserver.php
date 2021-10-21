@@ -31,7 +31,6 @@ class OrderObserver
         //状态发生更新
         if (!is_null($order->getChanges()['status'] ?? null)) {
             if ($order->status == Order::REJECT) {
-                \info("拒绝接单");
                 //1.拒绝接单 通知用户
                 $user = $order->user;
                 $user->notify(new OrderNotification($order));
@@ -43,11 +42,12 @@ class OrderObserver
                 $order->store->user->notify(new OrderNotification($order));
                 event(new OrderBroadcast($order, $order->store->user->id));
             } else if ($order->status == Order::ACCEPT) {
-                \info("接单");
                 //3.接单 通知技师和用户
                 $order->user->notify(new OrderNotification($order));
-                $order->technicianUser->notify(new OrderNotification($order));
                 event(new OrderBroadcast($order, $order->user->id));
+            } else if ($order->status == Order::ALLOT) {
+                //商家派钟 通知技师
+                $order->technicianUser->notify(new OrderNotification($order));
                 event(new OrderBroadcast($order, $order->technicianUser->id));
             }
         }
