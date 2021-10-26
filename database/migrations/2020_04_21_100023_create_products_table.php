@@ -14,7 +14,7 @@ class CreateProductsTable extends Migration
     public function up()
     {
         if (Schema::hasTable('products')) {
-            Schema::drop('products');
+            return;
         }
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -45,7 +45,6 @@ class CreateProductsTable extends Migration
 
             $table->string('location')->index()->nullable()->comment('位置信息');
             $table->Integer('status')->default(0)->comment("0:默认 1:上架 -1:下架");
-            $table->double('service_duration')->nullable()->comment('服务时长');
             $table->double('open_time_at')->nullable()->comment('开放时间');
             $table->double('close_time_at')->nullable()->comment('失效时间');
             $table->timestamps();
