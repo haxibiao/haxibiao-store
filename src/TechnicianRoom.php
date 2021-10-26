@@ -94,8 +94,8 @@ class TechnicianRoom extends Model
         } else if ($technicianProfile->status == TechnicianProfile::NOT_WORK_STATUS) {
             throw new GQLException("该技师休息中，换一个技师吧！");
         }
+        $order = Order::find($order_id);
         if ($order_id) {
-            $order = Order::find($order_id);
             throw_if(empty($order), GQLException::class, "没有该订单");
             throw_if($order->status == Order::ALLOT, GQLException::class, "订单已派钟");
         }
